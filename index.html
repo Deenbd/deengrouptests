@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>4th Test: Deen Group Tests</title>
+  <title>4th Test: Hizbuddin Mujahid Tests</title>
   <link href="onlylogo.png" rel="icon" />
   <style>
     body {
@@ -40,7 +40,7 @@
     }
 
     .right-box {
-      width: 400px; /* ✅ চওড়া করা হয়েছে */
+      width: 400px;
       background-color: #ccffcc;
     }
 
@@ -117,7 +117,6 @@
       margin-bottom: 10px;
     }
 
-    /* ✅ Rule 2 বাটন স্টাইল */
     .rule-2-option {
       background-color: #add8e6 !important;
       color: black !important;
@@ -156,6 +155,7 @@
 
   <script>
     let completedRules = [];
+    let allowedRule3Access = false;
 
     function validatePassword() {
       const password = document.getElementById("password").value;
@@ -170,6 +170,11 @@
     function selectRule(ruleNumber) {
       if (ruleNumber > 1 && !completedRules.includes(ruleNumber - 1)) {
         alert(`আপনি আগে Rule ${ruleNumber - 1} সম্পন্ন করুন।`);
+        return;
+      }
+
+      if (ruleNumber === 3 && !allowedRule3Access) {
+        alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
         return;
       }
 
@@ -224,7 +229,18 @@
       } else if (ruleNumber === 3) {
         content = `
           <div class="rule-content">
-            <p>এই রুলের টাস্ক আপনি পরে দিবেন।</p>
+            <p><strong>Brute Force Attack:</strong></p>
+            <p>এটি একটি পদ্ধতি যেখানে কম্পিউটার বা স্ক্রিপ্ট সম্ভাব্য সব কম্বিনেশন দিয়ে পাসওয়ার্ড অনুমান করে।</p>
+            <p>যেমন, যদি পাসওয়ার্ড হয় চার ডিজিটের সংখ্যা, তবে এটি 0000 থেকে শুরু করে 9999 পর্যন্ত সব চেষ্টা করবে।</p>
+            <p>এটি ধীরে হলেও নিশ্চিতভাবে ফল দেয়, যদি সময় দেওয়া হয়।</p>
+            <p><strong>উদাহরণ:</strong><br>
+            একজন attacker যদি জানে যে পাসওয়ার্ড ৪ সংখ্যার, সে তাহলে ধারাবাহিকভাবে 0001, 0002, ... 9999 পর্যন্ত চেষ্টা করবে।</p>
+            <hr>
+            <p><strong>Dictionary Attack:</strong></p>
+            <p>এই পদ্ধতিতে attacker একটি “dictionary” বা তালিকা ব্যবহার করে যেখানে প্রচলিত পাসওয়ার্ডগুলো থাকে যেমন 1234, password, admin, qwerty ইত্যাদি।</p>
+            <p>এই পদ্ধতি দ্রুততর কিন্তু নির্ভর করে ইউজার সহজ পাসওয়ার্ড বেছে নিয়েছে কি না।</p>
+            <p><strong>উদাহরণ:</strong><br>
+            password, 123456, letmein, admin, welcome123</p>
           </div>
         `;
       } else if (ruleNumber === 4) {
@@ -256,11 +272,13 @@
         if (!completedRules.includes(2)) {
           completedRules.push(2);
         }
+        allowedRule3Access = true;
         setTimeout(() => {
           selectRule(3);
         }, 300);
       } else {
         alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
+        allowedRule3Access = false;
         setTimeout(() => {
           selectRule(2);
         }, 300);
@@ -273,7 +291,7 @@
       document.getElementById("backContainer").style.display = "none";
       document.getElementById("backContainer").innerHTML = ``;
 
-      if (!completedRules.includes(3)) {
+      if (!completedRules.includes(3) || !allowedRule3Access) {
         const i = completedRules.indexOf(3);
         if (i > -1) completedRules.splice(i, 1);
       }
