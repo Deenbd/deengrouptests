@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>4th Test: Deen Group Tests</title>
+  <link href="onlylogo.png" rel="icon" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #001f4d;
+    }
+
+    .container {
+      display: flex;
+      gap: 60px;
+    }
+
+    .left-box, .right-box {
+      height: 500px;
+      padding: 20px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .left-box {
+      width: 300px;
+      background-color: #ffcccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .right-box {
+      width: 400px; /* ✅ চওড়া করা হয়েছে */
+      background-color: #ccffcc;
+    }
+
+    .left-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .left-box button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .left-box button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .right-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #buttonsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #buttonsContainer button,
+    #backContainer button {
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 5px;
+    }
+
+    #buttonsContainer button:hover,
+    #backContainer button:hover {
+      background-color: #45a049;
+    }
+
+    #backContainer {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .rule-content {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .rule-content ul {
+      padding-left: 20px;
+    }
+
+    .rule-content li {
+      margin-bottom: 10px;
+    }
+
+    /* ✅ Rule 2 বাটন স্টাইল */
+    .rule-2-option {
+      background-color: #add8e6 !important;
+      color: black !important;
+      flex: 1 1 calc(50% - 10px);
+      margin: 5px 0;
+    }
+
+    .rule-2-buttons-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-box">
+      <h3>Deen Group Log-in</h3>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" oninput="validatePassword()" />
+      <button id="loginBtn" onclick="login()" disabled>Log-in</button>
+    </div>
+
+    <div class="right-box">
+      <h2 id="ruleHeading">Rules</h2>
+      <div id="buttonsContainer">
+        <button onclick="selectRule(1)">Rule 1</button>
+        <button onclick="selectRule(2)">Rule 2</button>
+        <button onclick="selectRule(3)">Rule 3</button>
+        <button onclick="selectRule(4)">Rule 4</button>
+      </div>
+      <div id="backContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    let completedRules = [];
+
+    function validatePassword() {
+      const password = document.getElementById("password").value;
+      const loginBtn = document.getElementById("loginBtn");
+      loginBtn.disabled = password !== "0024";
+    }
+
+    function login() {
+      window.location.href = "https://example.com";
+    }
+
+    function selectRule(ruleNumber) {
+      if (ruleNumber > 1 && !completedRules.includes(ruleNumber - 1)) {
+        alert(`আপনি আগে Rule ${ruleNumber - 1} সম্পন্ন করুন।`);
+        return;
+      }
+
+      const heading = document.getElementById("ruleHeading");
+      const buttons = document.getElementById("buttonsContainer");
+      const back = document.getElementById("backContainer");
+
+      heading.textContent = `Rule ${ruleNumber}`;
+      buttons.style.display = "none";
+      back.style.display = "block";
+
+      let content = "";
+
+      if (ruleNumber === 1) {
+        content = `
+          <div class="rule-content">
+            <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
+            <ul>
+              <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
+              <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
+              <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
+              <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
+              <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
+            </ul>
+          </div>
+        `;
+      } else if (ruleNumber === 2) {
+        content = `
+          <div class="rule-content">
+            <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
+            <ul>
+              <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
+              <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
+              <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
+              <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
+              <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
+              <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
+              <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
+            </ul>
+            <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
+            <div class="rule-2-buttons-wrapper">
+              <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
+              <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
+              <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
+              <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
+              <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
+              <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
+              <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
+            </div>
+          </div>
+        `;
+      } else if (ruleNumber === 3) {
+        content = `
+          <div class="rule-content">
+            <p>এই রুলের টাস্ক আপনি পরে দিবেন।</p>
+          </div>
+        `;
+      } else if (ruleNumber === 4) {
+        if (!completedRules.includes(3)) {
+          alert("আপনি আগে Rule 3 সম্পন্ন করুন।");
+          return;
+        }
+        content = `
+          <div class="rule-content">
+            <p>Rule 4 Content এখানে আসবে...</p>
+          </div>
+        `;
+      }
+
+      back.innerHTML = content + `
+        <div style="text-align: center;">
+          <button onclick="goBack()">⬅️ Back</button>
+        </div>
+      `;
+
+      if (!completedRules.includes(ruleNumber)) {
+        completedRules.push(ruleNumber);
+      }
+    }
+
+    function selectMethod(method) {
+      if (method === 'Brute Force' || method === 'Dictionary') {
+        alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
+        if (!completedRules.includes(2)) {
+          completedRules.push(2);
+        }
+        setTimeout(() => {
+          selectRule(3);
+        }, 300);
+      } else {
+        alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
+        setTimeout(() => {
+          selectRule(2);
+        }, 300);
+      }
+    }
+
+    function goBack() {
+      document.getElementById("ruleHeading").textContent = "Rules";
+      document.getElementById("buttonsContainer").style.display = "flex";
+      document.getElementById("backContainer").style.display = "none";
+      document.getElementById("backContainer").innerHTML = ``;
+
+      if (!completedRules.includes(3)) {
+        const i = completedRules.indexOf(3);
+        if (i > -1) completedRules.splice(i, 1);
+      }
+    }
+  </script>
+</body>
+</html>
