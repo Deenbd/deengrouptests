@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>4th Test: Hizbuddin Mujahid Tests</title>
+  <title>4th Test: Deen Group Tests</title>
   <link href="onlylogo.png" rel="icon" />
   <style>
     body {
@@ -109,14 +109,6 @@
       margin-bottom: 15px;
     }
 
-    .rule-content ul {
-      padding-left: 20px;
-    }
-
-    .rule-content li {
-      margin-bottom: 10px;
-    }
-
     .rule-2-option {
       background-color: #add8e6 !important;
       color: black !important;
@@ -130,6 +122,47 @@
       gap: 10px;
       justify-content: space-between;
     }
+
+    .orange-button {
+      background-color: #ffcc99;
+      color: black;
+      margin-top: 20px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .orange-button:hover {
+      background-color: #ffbb66;
+    }
+
+    .typewriter {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 2px solid orange;
+  white-space: nowrap;
+  animation: typing 2s steps(30, end), blink 0.7s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: orange }
+}
+
+button:hover {
+  background: linear-gradient(to right, #ffae42, #ff7300);
+  box-shadow: 0 0 10px #ffaa00;
+}
+
+
   </style>
 </head>
 <body>
@@ -142,160 +175,291 @@
     </div>
 
     <div class="right-box">
-      <h2 id="ruleHeading">Rules</h2>
+      <h2 id="ruleHeading">Steps</h2>
       <div id="buttonsContainer">
-        <button onclick="selectRule(1)">Rule 1</button>
-        <button onclick="selectRule(2)">Rule 2</button>
-        <button onclick="selectRule(3)">Rule 3</button>
-        <button onclick="selectRule(4)">Rule 4</button>
+        <button onclick="selectStep(1)">Step 1</button>
+        <button onclick="selectStep(2)">Step 2</button>
+        <button onclick="selectStep(3)">Step 3</button>
+        <button onclick="selectStep(4)">Step 4</button>
       </div>
       <div id="backContainer"></div>
     </div>
   </div>
 
-  <script>
-    let completedRules = [];
-    let allowedRule3Access = false;
 
-    function validatePassword() {
-      const password = document.getElementById("password").value;
-      const loginBtn = document.getElementById("loginBtn");
-      loginBtn.disabled = password !== "0024";
+
+<script>
+  let completedSteps = [];
+  let allowedStep3Access = false;
+  let rule3Method = "";
+  let allowedStep4Access = false;
+
+  let pass = 0;
+  let paused = false;
+  let bruteTimer = null;
+  let started = false;
+
+  function validatePassword() {
+    const password = document.getElementById("password").value;
+    const loginBtn = document.getElementById("loginBtn");
+    loginBtn.disabled = password !== "9624";
+  }
+
+  function login() {
+    window.location.href = "https://example.com";
+  }
+
+  function selectStep(ruleNumber) {
+    if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
+      alert(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
+      return;
     }
 
-    function login() {
-      window.location.href = "https://example.com";
+    if (ruleNumber === 3 && !allowedStep3Access) {
+      alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
+      return;
     }
 
-    function selectRule(ruleNumber) {
-      if (ruleNumber > 1 && !completedRules.includes(ruleNumber - 1)) {
-        alert(`আপনি আগে Rule ${ruleNumber - 1} সম্পন্ন করুন।`);
-        return;
-      }
+    if (ruleNumber === 4 && !allowedStep4Access) {
+      alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ যেতে পারবেন না!");
+      return;
+    }
 
-      if (ruleNumber === 3 && !allowedRule3Access) {
-        alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
-        return;
-      }
+    const heading = document.getElementById("ruleHeading");
+    const buttons = document.getElementById("buttonsContainer");
+    const back = document.getElementById("backContainer");
 
-      const heading = document.getElementById("ruleHeading");
-      const buttons = document.getElementById("buttonsContainer");
-      const back = document.getElementById("backContainer");
+    heading.textContent = `Step ${ruleNumber}`;
+    buttons.style.display = "none";
+    back.style.display = "block";
 
-      heading.textContent = `Rule ${ruleNumber}`;
-      buttons.style.display = "none";
-      back.style.display = "block";
+    let content = "";
 
-      let content = "";
-
-      if (ruleNumber === 1) {
-        content = `
-          <div class="rule-content">
-            <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
-            <ul>
-              <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
-              <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
-              <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
-              <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
-              <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
-            </ul>
-          </div>
-        `;
-      } else if (ruleNumber === 2) {
-        content = `
-          <div class="rule-content">
-            <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
-            <ul>
-              <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
-              <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
-              <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
-              <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
-              <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
-              <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
-              <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
-            </ul>
-            <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
-            <div class="rule-2-buttons-wrapper">
-              <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
-              <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
-              <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
-              <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
-              <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
-              <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
-              <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
-            </div>
-          </div>
-        `;
-      } else if (ruleNumber === 3) {
-        content = `
-          <div class="rule-content">
-            <p><strong>Brute Force Attack:</strong></p>
-            <p>এটি একটি পদ্ধতি যেখানে কম্পিউটার বা স্ক্রিপ্ট সম্ভাব্য সব কম্বিনেশন দিয়ে পাসওয়ার্ড অনুমান করে।</p>
-            <p>যেমন, যদি পাসওয়ার্ড হয় চার ডিজিটের সংখ্যা, তবে এটি 0000 থেকে শুরু করে 9999 পর্যন্ত সব চেষ্টা করবে।</p>
-            <p>এটি ধীরে হলেও নিশ্চিতভাবে ফল দেয়, যদি সময় দেওয়া হয়।</p>
-            <p><strong>উদাহরণ:</strong><br>
-            একজন attacker যদি জানে যে পাসওয়ার্ড ৪ সংখ্যার, সে তাহলে ধারাবাহিকভাবে 0001, 0002, ... 9999 পর্যন্ত চেষ্টা করবে।</p>
-            <hr>
-            <p><strong>Dictionary Attack:</strong></p>
-            <p>এই পদ্ধতিতে attacker একটি “dictionary” বা তালিকা ব্যবহার করে যেখানে প্রচলিত পাসওয়ার্ডগুলো থাকে যেমন 1234, password, admin, qwerty ইত্যাদি।</p>
-            <p>এই পদ্ধতি দ্রুততর কিন্তু নির্ভর করে ইউজার সহজ পাসওয়ার্ড বেছে নিয়েছে কি না।</p>
-            <p><strong>উদাহরণ:</strong><br>
-            password, 123456, letmein, admin, welcome123</p>
-          </div>
-        `;
-      } else if (ruleNumber === 4) {
-        if (!completedRules.includes(3)) {
-          alert("আপনি আগে Rule 3 সম্পন্ন করুন।");
-          return;
-        }
-        content = `
-          <div class="rule-content">
-            <p>Rule 4 Content এখানে আসবে...</p>
-          </div>
-        `;
-      }
-
-      back.innerHTML = content + `
-        <div style="text-align: center;">
-          <button onclick="goBack()">⬅️ Back</button>
+    if (ruleNumber === 1) {
+      content = `
+        <div class="rule-content">
+          <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
+          <ul>
+            <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
+            <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
+            <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
+            <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
+            <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
+          </ul>
         </div>
       `;
-
-      if (!completedRules.includes(ruleNumber)) {
-        completedRules.push(ruleNumber);
+    } else if (ruleNumber === 2) {
+      content = `
+        <div class="rule-content">
+          <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
+          <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
+          <ul>
+            <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
+            <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
+            <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
+            <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
+            <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
+            <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
+            <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
+          </ul>
+          <div class="rule-2-buttons-wrapper">
+            <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
+            <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
+            <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
+            <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
+            <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
+            <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
+            <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
+          </div>
+        </div>
+      `;
+    } else if (ruleNumber === 3) {
+      if (rule3Method === "Brute Force") {
+        content = `
+          <div class="attack-section" id="brute-force">
+            <h3>🧠 Brute Force Attack (ব্রুট ফোর্স আক্রমণ)</h3>
+            <p><strong>🔐 সংজ্ঞা:</strong> Brute Force Attack হলো এমন একটি পদ্ধতি যেখানে একটি প্রোগ্রাম বা স্ক্রিপ্ট সম্ভাব্য সব পাসওয়ার্ড কম্বিনেশন একে একে চেষ্টা করে সঠিক পাসওয়ার্ড খুঁজে বের করে।</p>
+            <p><strong>🧮 কিভাবে কাজ করে:</strong> ধরুন, আপনি জানেন ইউজারের পাসওয়ার্ড ৪ ডিজিট সংখ্যা। তখন আপনি 0000 থেকে শুরু করে 9999 পর্যন্ত প্রতিটি সংখ্যা চেষ্টা করবেন। কম্পিউটার বা স্ক্রিপ্ট এটি স্বয়ংক্রিয়ভাবে করে ফেলবে।</p>
+            <p><strong>📦 উদাহরণ:</strong> 0000, 0001, 0002, ..., 1234, ..., 9999</p>
+            <p><strong>📉 দুর্বলতা:</strong></p>
+            <ul>
+              <li>সময় বেশি লাগে, বিশেষ করে পাসওয়ার্ড বড় হলে।</li>
+              <li>তবে সফল হলে নিশ্চিত ফল দেয়।</li>
+            </ul>
+          </div>
+        `;
+      } else if (rule3Method === "Dictionary") {
+        content = `
+          <div class="attack-section" id="dictionary-attack">
+            <h3>📖 Dictionary Attack (ডিকশনারি আক্রমণ)</h3>
+            <p><strong>🔐 সংজ্ঞা:</strong> Dictionary Attack এমন একটি পদ্ধতি যেখানে হ্যাকাররা একটি প্রি-মেড ডিকশনারি বা তালিকা ব্যবহার করে — যেখানে অনেকগুলো সাধারণ ও জনপ্রিয় পাসওয়ার্ড থাকে।</p>
+            <p><strong>🧠 কিভাবে কাজ করে:</strong> অনেক মানুষ খুব সাধারণ পাসওয়ার্ড ব্যবহার করে, যেমন: 123456, password, admin, qwerty। এইসব পাসওয়ার্ড আগে থেকে রাখা থাকে একটি .txt ফাইলে বা স্ক্রিপ্টে। এরপর সেই তালিকা থেকে একে একে প্রতিটি পাসওয়ার্ড দিয়ে চেষ্টা করা হয়।</p>
+            <p><strong>📦 উদাহরণ:</strong> password, 123456, letmein, admin, welcome123, qwerty, pass123</p>
+            <p><strong>⚠️ দুর্বলতা:</strong></p>
+            <ul>
+              <li>যদি ইউজার শক্তিশালী ও অপ্রচলিত পাসওয়ার্ড ব্যবহার করে, তাহলে এই পদ্ধতি ব্যর্থ হয়।</li>
+              <li>তবে সহজ পাসওয়ার্ডের জন্য খুবই কার্যকর।</li>
+            </ul>
+          </div>
+        `;
       }
+
+      content += `
+        <div style="text-align:center;">
+          <button class="orange-button" onclick="goToStep4()">🚀 Start Attack!</button>
+        </div>
+      `;
+    } else if (ruleNumber === 4) {
+      pass = 0;
+      paused = false;
+      started = false;
+
+      content = `
+        <div class="rule-content">
+          <h3 style="text-align:center;">🔐 Brute Force Simulation চলছে...</h3>
+          <div id="sim-box" style="background:#fff3cd;padding:20px;border-radius:10px;text-align:center;">
+            <div id="status">চেকিং হচ্ছে...</div>
+            <div id="current-pass" style="font-size:24px;margin-top:10px;">বর্তমান পাসওয়ার্ড: ----</div>
+            <div id="check-result" style="font-size:20px;font-weight:bold;margin-top:10px;"></div>
+            <div id="speed-zone" style="margin-top:10px; font-size:16px;"></div>
+            <div id="controls" style="margin-top:20px;">
+              <button id="startStopBtn" onclick="toggleSimulation()" style="padding: 10px 20px; background: #28a745; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">▶️ Start</button>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
-    function selectMethod(method) {
-      if (method === 'Brute Force' || method === 'Dictionary') {
-        alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
-        if (!completedRules.includes(2)) {
-          completedRules.push(2);
-        }
-        allowedRule3Access = true;
-        setTimeout(() => {
-          selectRule(3);
-        }, 300);
-      } else {
-        alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
-        allowedRule3Access = false;
-        setTimeout(() => {
-          selectRule(2);
-        }, 300);
-      }
+    back.innerHTML = content + `
+      <div style="text-align:center;">
+        <button onclick="goBack()">⬅️ Back</button>
+      </div>
+    `;
+
+    if (!completedSteps.includes(ruleNumber)) {
+      completedSteps.push(ruleNumber);
+    }
+  }
+
+  function selectMethod(method) {
+    if (method === 'Brute Force' || method === 'Dictionary') {
+      alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
+      if (!completedSteps.includes(2)) completedSteps.push(2);
+      allowedStep3Access = true;
+      rule3Method = method;
+      allowedStep4Access = false;
+      setTimeout(() => selectStep(3), 300);
+    } else {
+      alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
+      allowedStep3Access = false;
+      rule3Method = "";
+      setTimeout(() => selectStep(2), 300);
+    }
+  }
+
+  function goToStep4() {
+    allowedStep4Access = true;
+    selectStep(4);
+  }
+
+  function goBack() {
+    const heading = document.getElementById("ruleHeading").textContent;
+    if (heading === "Step 4" && !allowedStep4Access) {
+      alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ ফিরে যেতে পারবেন না!");
+      return;
     }
 
-    function goBack() {
-      document.getElementById("ruleHeading").textContent = "Rules";
-      document.getElementById("buttonsContainer").style.display = "flex";
-      document.getElementById("backContainer").style.display = "none";
-      document.getElementById("backContainer").innerHTML = ``;
+    document.getElementById("ruleHeading").textContent = "Steps";
+    document.getElementById("buttonsContainer").style.display = "flex";
+    document.getElementById("backContainer").style.display = "none";
+    document.getElementById("backContainer").innerHTML = ``;
 
-      if (!completedRules.includes(3) || !allowedRule3Access) {
-        const i = completedRules.indexOf(3);
-        if (i > -1) completedRules.splice(i, 1);
-      }
+    if (!completedSteps.includes(3) || !allowedStep3Access) {
+      const i = completedSteps.indexOf(3);
+      if (i > -1) completedSteps.splice(i, 1);
     }
-  </script>
+  }
+
+  function toggleSimulation() {
+    const btn = document.getElementById("startStopBtn");
+    const controls = document.getElementById("controls");
+
+    if (!started) {
+      started = true;
+      btn.textContent = "⏸️ Pause";
+      controls.innerHTML += `
+        <br><button onclick="revealPassword()" style="margin-top: 10px; padding: 10px 20px; background: linear-gradient(to right, #ffa500, #ff8c00); color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">🪄 Reveal Password</button>
+        <br><button onclick="stopSimulation()" style="margin-top: 10px; padding: 10px 20px; background: red; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">⛔ Stop</button>
+      `;
+      bruteForceStart();
+    } else {
+      paused = !paused;
+      btn.textContent = paused ? "▶️ Resume" : "⏸️ Pause";
+      if (!paused) bruteForceStart();
+      else clearTimeout(bruteTimer);
+    }
+  }
+
+  function stopSimulation() {
+    clearTimeout(bruteTimer);
+    selectStep(4);
+  }
+
+  function revealPassword() {
+    const passInput = document.getElementById("password");
+    passInput.type = "text";
+    passInput.value = "9624";
+    passInput.style.boxShadow = "0 0 10px orange";
+    setTimeout(() => {
+      passInput.style.boxShadow = "none";
+    }, 1000);
+  }
+
+  function bruteForceStart() {
+    const passInput = document.getElementById("password");
+    const status = document.getElementById("status");
+    const display = document.getElementById("current-pass");
+    const result = document.getElementById("check-result");
+    const speedZone = document.getElementById("speed-zone");
+
+    const formatted = pass.toString().padStart(4, '0');
+    display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
+    passInput.type = "text";
+    passInput.value = formatted;
+
+    let delay = 5;
+let zone = "Fast";
+
+if (pass > 4053 && pass <= 8264) {
+  delay = 20;
+  zone = "Medium";
+} else if (pass > 8264 && pass <= 9524) {
+  delay = 1;
+  zone = "Very Fast";
+} else if (pass > 9524) {
+  delay = 30;
+  zone = "Slow";
+}
+
+
+
+    speedZone.textContent = `Speed Zone: ${zone}`;
+
+    if (formatted === "9624") {
+      result.innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড মিলেছে!</span>`;
+      document.getElementById("startStopBtn").disabled = true;
+      return;
+    } else {
+      result.innerHTML = `<span style="color:red;">❌ ${formatted} ভুল</span>`;
+    }
+
+    pass++;
+    bruteTimer = setTimeout(bruteForceStart, delay);
+  }
+
+
+</script>
+
+
 </body>
 </html>
