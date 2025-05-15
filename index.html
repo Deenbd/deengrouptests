@@ -430,14 +430,14 @@ button:hover {
     let delay = 5;
 let zone = "Fast";
 
-if (pass > 4053 && pass <= 8264) {
+if (pass > 4053 && pass <= 7264) {
   delay = 20;
   zone = "Medium";
-} else if (pass > 8264 && pass <= 9524) {
-  delay = 1;
+} else if (pass > 7264 && pass <= 9524) {
+  delay = 2;
   zone = "Very Fast";
 } else if (pass > 9524) {
-  delay = 30;
+  delay = 50;
   zone = "Slow";
 }
 
