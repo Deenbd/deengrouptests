@@ -1,466 +1,466 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>4th Test: Deen Group Tests</title>
-  <link href="onlylogo.png" rel="icon" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #001f4d;
-    }
-
-    .container {
-      display: flex;
-      gap: 60px;
-    }
-
-    .left-box, .right-box {
-      height: 500px;
-      padding: 20px;
-      border-radius: 10px;
-      box-sizing: border-box;
-      overflow-y: auto;
-    }
-
-    .left-box {
-      width: 300px;
-      background-color: #ffcccc;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow-x: hidden;
-    }
-
-    .right-box {
-      width: 400px;
-      background-color: #ccffcc;
-    }
-
-    .left-box input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #aaa;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .left-box button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .left-box button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
-    }
-
-    .right-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    #buttonsContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    #buttonsContainer button,
-    #backContainer button {
-      padding: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 5px;
-    }
-
-    #buttonsContainer button:hover,
-    #backContainer button:hover {
-      background-color: #45a049;
-    }
-
-    #backContainer {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .rule-content {
-      text-align: left;
-      margin-bottom: 15px;
-    }
-
-    .rule-2-option {
-      background-color: #add8e6 !important;
-      color: black !important;
-      flex: 1 1 calc(50% - 10px);
-      margin: 5px 0;
-    }
-
-    .rule-2-buttons-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
-    }
-
-    .orange-button {
-      background-color: #ffcc99;
-      color: black;
-      margin-top: 20px;
-      padding: 12px 18px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .orange-button:hover {
-      background-color: #ffbb66;
-    }
-
-    .typewriter {
-  display: inline-block;
-  overflow: hidden;
-  border-right: 2px solid orange;
-  white-space: nowrap;
-  animation: typing 2s steps(30, end), blink 0.7s step-end infinite;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink {
-  from, to { border-color: transparent }
-  50% { border-color: orange }
-}
-
-button:hover {
-  background: linear-gradient(to right, #ffae42, #ff7300);
-  box-shadow: 0 0 10px #ffaa00;
-}
-
-
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>4th Test: Deen Group Tests</title>
+    <link href="onlylogo.png" rel="icon" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #001f4d;
+        }
+        .container {
+            display: flex;
+            gap: 60px;
+        }
+        .left-box, .right-box {
+            height: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .left-box {
+            width: 300px;
+            background-color: #ffcccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+        .right-box {
+            width: 400px;
+            background-color: #ccffcc;
+        }
+        .left-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .left-box button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .left-box button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .right-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #buttonsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #buttonsContainer button,
+        #backContainer button {
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+        }
+        #buttonsContainer button:hover,
+        #backContainer button:hover {
+            background-color: #45a049;
+        }
+        #backContainer {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .rule-content {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .rule-2-option {
+            background-color: #add8e6 !important;
+            color: black !important;
+            flex: 1 1 calc(50% - 10px);
+            margin: 5px 0;
+        }
+        .rule-2-buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .orange-button {
+            background-color: #ffcc99;
+            color: black;
+            margin-top: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .orange-button:hover {
+            background-color: #ffbb66;
+        }
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid orange;
+            white-space: nowrap;
+            animation: typing 2s steps(30, end), blink 0.7s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: orange }
+        }
+        button:hover {
+            background: linear-gradient(to right, #ffae42, #ff7300);
+            box-shadow: 0 0 10px #ffaa00;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="left-box">
-      <h3>Deen Group Log-in</h3>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" oninput="validatePassword()" />
-      <button id="loginBtn" onclick="login()" disabled>Log-in</button>
-    </div>
-
-    <div class="right-box">
-      <h2 id="ruleHeading">Steps</h2>
-      <div id="buttonsContainer">
-        <button onclick="selectStep(1)">Step 1</button>
-        <button onclick="selectStep(2)">Step 2</button>
-        <button onclick="selectStep(3)">Step 3</button>
-        <button onclick="selectStep(4)">Step 4</button>
-      </div>
-      <div id="backContainer"></div>
-    </div>
-  </div>
-
-
-
-<script>
-  let completedSteps = [];
-  let allowedStep3Access = false;
-  let rule3Method = "";
-  let allowedStep4Access = false;
-
-  let pass = 0;
-  let paused = false;
-  let bruteTimer = null;
-  let started = false;
-
-  function validatePassword() {
-    const password = document.getElementById("password").value;
-    const loginBtn = document.getElementById("loginBtn");
-    loginBtn.disabled = password !== "9624";
-  }
-
-  function login() {
-    window.location.href = "https://example.com";
-  }
-
-  function selectStep(ruleNumber) {
-    if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
-      alert(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
-      return;
-    }
-
-    if (ruleNumber === 3 && !allowedStep3Access) {
-      alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
-      return;
-    }
-
-    if (ruleNumber === 4 && !allowedStep4Access) {
-      alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ যেতে পারবেন না!");
-      return;
-    }
-
-    const heading = document.getElementById("ruleHeading");
-    const buttons = document.getElementById("buttonsContainer");
-    const back = document.getElementById("backContainer");
-
-    heading.textContent = `Step ${ruleNumber}`;
-    buttons.style.display = "none";
-    back.style.display = "block";
-
-    let content = "";
-
-    if (ruleNumber === 1) {
-      content = `
-        <div class="rule-content">
-          <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
-          <ul>
-            <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
-            <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
-            <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
-            <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
-            <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
-            <li>৬ষ্ঠ তথ্য: পাসওয়ার্ড পেয়ে গেলে শেষ অঙ্কটি ডিলেট করে আবার লিখতে হবে।</li>
-          </ul>
+    <div class="container">
+        <div class="left-box">
+            <h3>Deen Group Log-in</h3>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" oninput="validatePassword()" />
+            <button id="loginBtn" onclick="login()" disabled>Log-in</button>
         </div>
-      `;
-    } else if (ruleNumber === 2) {
-      content = `
-        <div class="rule-content">
-          <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
-          <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
-          <ul>
-            <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
-            <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
-            <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
-            <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
-            <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
-            <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
-            <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
-          </ul>
-          <div class="rule-2-buttons-wrapper">
-            <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
-            <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
-            <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
-            <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
-            <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
-            <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
-            <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
-          </div>
-        </div>
-      `;
-    } else if (ruleNumber === 3) {
-      if (rule3Method === "Brute Force") {
-        content = `
-          <div class="attack-section" id="brute-force">
-            <h3>🧠 Brute Force Attack (ব্রুট ফোর্স আক্রমণ)</h3>
-            <p><strong>🔐 সংজ্ঞা:</strong> Brute Force Attack হলো এমন একটি পদ্ধতি যেখানে একটি প্রোগ্রাম বা স্ক্রিপ্ট সম্ভাব্য সব পাসওয়ার্ড কম্বিনেশন একে একে চেষ্টা করে সঠিক পাসওয়ার্ড খুঁজে বের করে।</p>
-            <p><strong>🧮 কিভাবে কাজ করে:</strong> ধরুন, আপনি জানেন ইউজারের পাসওয়ার্ড ৪ ডিজিট সংখ্যা। তখন আপনি 0000 থেকে শুরু করে 9999 পর্যন্ত প্রতিটি সংখ্যা চেষ্টা করবেন। কম্পিউটার বা স্ক্রিপ্ট এটি স্বয়ংক্রিয়ভাবে করে ফেলবে।</p>
-            <p><strong>📦 উদাহরণ:</strong> 0000, 0001, 0002, ..., 1234, ..., 9999</p>
-            <p><strong>📉 দুর্বলতা:</strong></p>
-            <ul>
-              <li>সময় বেশি লাগে, বিশেষ করে পাসওয়ার্ড বড় হলে।</li>
-              <li>তবে সফল হলে নিশ্চিত ফল দেয়।</li>
-            </ul>
-          </div>
-        `;
-      } else if (rule3Method === "Dictionary") {
-        content = `
-          <div class="attack-section" id="dictionary-attack">
-            <h3>📖 Dictionary Attack (ডিকশনারি আক্রমণ)</h3>
-            <p><strong>🔐 সংজ্ঞা:</strong> Dictionary Attack এমন একটি পদ্ধতি যেখানে হ্যাকাররা একটি প্রি-মেড ডিকশনারি বা তালিকা ব্যবহার করে — যেখানে অনেকগুলো সাধারণ ও জনপ্রিয় পাসওয়ার্ড থাকে।</p>
-            <p><strong>🧠 কিভাবে কাজ করে:</strong> অনেক মানুষ খুব সাধারণ পাসওয়ার্ড ব্যবহার করে, যেমন: 123456, password, admin, qwerty। এইসব পাসওয়ার্ড আগে থেকে রাখা থাকে একটি .txt ফাইলে বা স্ক্রিপ্টে। এরপর সেই তালিকা থেকে একে একে প্রতিটি পাসওয়ার্ড দিয়ে চেষ্টা করা হয়।</p>
-            <p><strong>📦 উদাহরণ:</strong> password, 123456, letmein, admin, welcome123, qwerty, pass123</p>
-            <p><strong>⚠️ দুর্বলতা:</strong></p>
-            <ul>
-              <li>যদি ইউজার শক্তিশালী ও অপ্রচলিত পাসওয়ার্ড ব্যবহার করে, তাহলে এই পদ্ধতি ব্যর্থ হয়।</li>
-              <li>তবে সহজ পাসওয়ার্ডের জন্য খুবই কার্যকর।</li>
-            </ul>
-          </div>
-        `;
-      }
-
-      content += `
-        <div style="text-align:center;">
-          <button class="orange-button" onclick="goToStep4()">🚀 Start Attack!</button>
-        </div>
-      `;
-    } else if (ruleNumber === 4) {
-      pass = 0;
-      paused = false;
-      started = false;
-
-      content = `
-        <div class="rule-content">
-          <h3 style="text-align:center;">🔐 Brute Force Simulation চলছে...</h3>
-          <div id="sim-box" style="background:#fff3cd;padding:20px;border-radius:10px;text-align:center;">
-            <div id="status">চেকিং হচ্ছে...</div>
-            <div id="current-pass" style="font-size:24px;margin-top:10px;">বর্তমান পাসওয়ার্ড: ----</div>
-            <div id="check-result" style="font-size:20px;font-weight:bold;margin-top:10px;"></div>
-            <div id="speed-zone" style="margin-top:10px; font-size:16px;"></div>
-            <div id="controls" style="margin-top:20px;">
-              <button id="startStopBtn" onclick="toggleSimulation()" style="padding: 10px 20px; background: #28a745; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">▶️ Start</button>
+        <div class="right-box">
+            <h2 id="ruleHeading">Steps</h2>
+            <div id="buttonsContainer">
+                <button onclick="selectStep(1)">Step 1</button>
+                <button onclick="selectStep(2)">Step 2</button>
+                <button onclick="selectStep(3)">Step 3</button>
+                <button onclick="selectStep(4)">Step 4</button>
             </div>
-          </div>
+            <div id="backContainer"></div>
         </div>
-      `;
-    }
+    </div>
+    <script>
+        let completedSteps = [];
+        let allowedStep3Access = false;
+        let rule3Method = "";
+        let allowedStep4Access = false;
+        let pass = 0;
+        let paused = false;
+        let bruteTimer = null;
+        let started = false;
+        let dictionaryList = [];
+        let dictIndex = 0;
+        let usingDictionary = false;
+        const correctPassword = "9624";
+        const TOTAL_DICTIONARY_PASSWORDS = 10000;
 
-    back.innerHTML = content + `
-      <div style="text-align:center;">
-        <button onclick="goBack()">⬅️ Back</button>
-      </div>
-    `;
-
-    if (!completedSteps.includes(ruleNumber)) {
-      completedSteps.push(ruleNumber);
-    }
-  }
-
-  function selectMethod(method) {
-    if (method === 'Brute Force' || method === 'Dictionary') {
-      alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
-      if (!completedSteps.includes(2)) completedSteps.push(2);
-      allowedStep3Access = true;
-      rule3Method = method;
-      allowedStep4Access = false;
-      setTimeout(() => selectStep(3), 300);
-    } else {
-      alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
-      allowedStep3Access = false;
-      rule3Method = "";
-      setTimeout(() => selectStep(2), 300);
-    }
-  }
-
-  function goToStep4() {
-    allowedStep4Access = true;
-    selectStep(4);
-  }
-
-  function goBack() {
-    const heading = document.getElementById("ruleHeading").textContent;
-    if (heading === "Step 4" && !allowedStep4Access) {
-      alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ ফিরে যেতে পারবেন না!");
-      return;
-    }
-
-    document.getElementById("ruleHeading").textContent = "Steps";
-    document.getElementById("buttonsContainer").style.display = "flex";
-    document.getElementById("backContainer").style.display = "none";
-    document.getElementById("backContainer").innerHTML = ``;
-
-    if (!completedSteps.includes(3) || !allowedStep3Access) {
-      const i = completedSteps.indexOf(3);
-      if (i > -1) completedSteps.splice(i, 1);
-    }
-  }
-
-  function toggleSimulation() {
-    const btn = document.getElementById("startStopBtn");
-    const controls = document.getElementById("controls");
-
-    if (!started) {
-      started = true;
-      btn.textContent = "⏸️ Pause";
-      controls.innerHTML += `
-        <br><button onclick="revealPassword()" style="margin-top: 10px; padding: 10px 20px; background: linear-gradient(to right, #ffa500, #ff8c00); color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">🪄 Reveal Password</button>
-        <br><button onclick="stopSimulation()" style="margin-top: 10px; padding: 10px 20px; background: red; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">⛔ Stop</button>
-      `;
-      bruteForceStart();
-    } else {
-      paused = !paused;
-      btn.textContent = paused ? "▶️ Resume" : "⏸️ Pause";
-      if (!paused) bruteForceStart();
-      else clearTimeout(bruteTimer);
-    }
-  }
-
-  function stopSimulation() {
-    clearTimeout(bruteTimer);
-    selectStep(4);
-  }
-
-  function revealPassword() {
-    const passInput = document.getElementById("password");
-    passInput.type = "text";
-    passInput.value = "9624";
-    passInput.style.boxShadow = "0 0 10px orange";
-    setTimeout(() => {
-      passInput.style.boxShadow = "none";
-    }, 1000);
-  }
-
-  function bruteForceStart() {
-    const passInput = document.getElementById("password");
-    const status = document.getElementById("status");
-    const display = document.getElementById("current-pass");
-    const result = document.getElementById("check-result");
-    const speedZone = document.getElementById("speed-zone");
-
-    const formatted = pass.toString().padStart(4, '0');
-    display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
-    passInput.type = "text";
-    passInput.value = formatted;
-
-    let delay = 5;
-let zone = "Fast";
-
-if (pass > 4053 && pass <= 7264) {
-  delay = 20;
-  zone = "Medium";
-} else if (pass > 7264 && pass <= 9524) {
-  delay = 2;
-  zone = "Very Fast";
-} else if (pass > 9524) {
-  delay = 50;
-  zone = "Slow";
-}
-
-
-
-    speedZone.textContent = `Speed Zone: ${zone}`;
-
-    if (formatted === "9624") {
-      result.innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড মিলেছে!</span>`;
-      document.getElementById("startStopBtn").disabled = true;
-      return;
-    } else {
-      result.innerHTML = `<span style="color:red;">❌ ${formatted} ভুল</span>`;
-    }
-
-    pass++;
-    bruteTimer = setTimeout(bruteForceStart, delay);
-  }
-
-
-</script>
-
-
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const loginBtn = document.getElementById("loginBtn");
+            loginBtn.disabled = password !== correctPassword;
+        }
+        function login() {
+            window.location.href = "https://example.com";
+        }
+        function selectStep(ruleNumber) {
+            if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
+                alert(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
+                return;
+            }
+            if (ruleNumber === 3 && !allowedStep3Access) {
+                alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
+                return;
+            }
+            if (ruleNumber === 4 && !allowedStep4Access) {
+                alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ যেতে পারবেন না!");
+                return;
+            }
+            const heading = document.getElementById("ruleHeading");
+            const buttons = document.getElementById("buttonsContainer");
+            const back = document.getElementById("backContainer");
+            heading.textContent = `Step ${ruleNumber}`;
+            buttons.style.display = "none";
+            back.style.display = "block";
+            let content = "";
+            if (ruleNumber === 1) {
+                content = `
+                    <div class="rule-content">
+                        <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
+                        <ul>
+                            <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
+                            <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
+                            <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
+                            <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
+                            <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
+                            <li>৬ষ্ঠ তথ্য: পাসওয়ার্ড পেয়ে গেলে শেষ অঙ্কটি ডিলেট করে আবার লিখতে হবে।।</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (ruleNumber === 2) {
+                content = `
+                    <div class="rule-content">
+                        <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
+                        <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
+                        <ul>
+                            <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
+                            <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
+                            <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
+                            <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
+                            <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
+                            <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
+                            <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
+                        </ul>
+                        <div class="rule-2-buttons-wrapper">
+                            <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
+                            <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
+                            <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
+                            <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
+                            <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
+                            <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
+                            <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
+                        </div>
+                    </div>
+                `;
+            } else if (ruleNumber === 3) {
+                if (rule3Method === "Brute Force") {
+                    content = `
+                        <div class="attack-section" id="brute-force">
+                            <h3>🧠 Brute Force Attack (ব্রুট ফোর্স আক্রমণ)</h3>
+                            <p><strong>🔐 সংজ্ঞা:</strong> Brute Force Attack হলো এমন একটি পদ্ধতি যেখানে একটি প্রোগ্রাম বা স্ক্রিপ্ট সম্ভাব্য সব পাসওয়ার্ড কম্বিনেশন একে একে চেষ্টা করে সঠিক পাসওয়ার্ড খুঁজে বের করে।</p>
+                            <p><strong>🧮 কিভাবে কাজ করে:</strong> ধরুন, আপনি জানেন ইউজারের পাসওয়ার্ড ৪ ডিজিট সংখ্যা। তখন আপনি 0000 থেকে শুরু করে 9999 পর্যন্ত প্রতিটি সংখ্যা চেষ্টা করবেন। কম্পিউটার বা স্ক্রিপ্ট এটি স্বয়ংক্রিয়ভাবে করে ফেলবে।</p>
+                            <p><strong>📦 উদাহরণ:</strong> 0000, 0001, 0002, ..., 1234, ..., 9999</p>
+                            <p><strong>📉 দুর্বলতা:</strong></p>
+                            <ul>
+                                <li>সময় বেশি লাগে, বিশেষ করে পাসওয়ার্ড বড় হলে।</li>
+                                <li>তবে সফল হলে নিশ্চিত ফল দেয়।</li>
+                            </ul>
+                        </div>
+                    `;
+                } else if (rule3Method === "Dictionary") {
+                    content = `
+                        <div class="attack-section" id="dictionary-attack">
+                            <h3>📖 Dictionary Attack (ডিকশনারি আক্রমণ)</h3>
+                            <p><strong>🔐 সংজ্ঞা:</strong> Dictionary Attack এমন একটি পদ্ধতি যেখানে হ্যাকাররা একটি প্রি-মেড ডিকশনারি বা তালিকা ব্যবহার করে — যেখানে অনেকগুলো সাধারণ ও জনপ্রিয় পাসওয়ার্ড থাকে।</p>
+                            <p><strong>🧠 কিভাবে কাজ করে:</strong> অনেক মানুষ খুব সাধারণ পাসওয়ার্ড ব্যবহার করে, যেমন: 123456, password, admin, qwerty। এইসব পাসওয়ার্ড আগে থেকে রাখা থাকে একটি .txt ফাইলে বা স্ক্রিপ্টে। এরপর সেই তালিকা থেকে একে একে প্রতিটি পাসওয়ার্ড দিয়ে চেষ্টা করা হয়।</p>
+                            <p><strong>📦 উদাহরণ:</strong> password, 123456, letmein, admin, welcome123, qwerty, pass123</p>
+                            <p><strong>⚠️ দুর্বলতা:</strong></p>
+                            <ul>
+                                <li>যদি ইউজার শক্তিশালী ও অপ্রচলিত পাসওয়ার্ড ব্যবহার করে, তাহলে এই পদ্ধতি ব্যর্থ হয়।</li>
+                                <li>তবে সহজ পাসওয়ার্ডের জন্য খুবই কার্যকর।</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+                content += `
+                    <div style="text-align:center;">
+                        <button class="orange-button" onclick="goToStep4()">🚀 Start Attack!</button>
+                    </div>
+                `;
+            } else if (ruleNumber === 4) {
+                pass = 0;
+                dictIndex = 0;
+                paused = false;
+                started = false;
+                usingDictionary = (rule3Method === "Dictionary");
+                content = `
+                    <div class="rule-content">
+                        <div id="sim-box" style="background:#fff3cd;padding:20px;border-radius:10px;text-align:center;">
+                            <div id="status">চেকিং হচ্ছে...</div>
+                            <div id="check-counter" style="margin-top:10px; font-size:16px; font-weight: bold;"></div>
+                            <div id="current-pass" style="font-size:24px;margin-top:10px;">বর্তমান পাসওয়ার্ড: ----</div>
+                            <div id="check-result" style="font-size:20px;font-weight:bold;margin-top:10px;"></div>
+                            <div id="speed-zone" style="margin-top:10px; font-size:16px;"></div>
+                            <div id="controls" style="margin-top:20px;">
+                                <button id="startStopBtn" onclick="toggleSimulation()" style="padding: 10px 20px; background: #28a745; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">▶️ Start</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            back.innerHTML = content + `
+                <div style="text-align:center;">
+                    <button onclick="goBack()">⬅️ Back</button>
+                </div>
+            `;
+            if (!completedSteps.includes(ruleNumber)) {
+                completedSteps.push(ruleNumber);
+            }
+        }
+        function selectMethod(method) {
+            if (method === 'Brute Force' || method === 'Dictionary') {
+                alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
+                if (!completedSteps.includes(2)) completedSteps.push(2);
+                allowedStep3Access = true;
+                rule3Method = method;
+                allowedStep4Access = false;
+                setTimeout(() => selectStep(3), 300);
+            } else {
+                alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
+                allowedStep3Access = false;
+                rule3Method = "";
+                setTimeout(() => selectStep(2), 300);
+            }
+        }
+        function goToStep4() {
+            allowedStep4Access = true;
+            selectStep(4);
+        }
+        function goBack() {
+            const heading = document.getElementById("ruleHeading").textContent;
+            if (heading === "Step 4" && !allowedStep4Access) {
+                alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ ফিরে যেতে পারবেন না!");
+                return;
+            }
+            document.getElementById("ruleHeading").textContent = "Steps";
+            document.getElementById("buttonsContainer").style.display = "flex";
+            document.getElementById("backContainer").style.display = "none";
+            document.getElementById("backContainer").innerHTML = ``;
+            if (!completedSteps.includes(3) || !allowedStep3Access) {
+                const i = completedSteps.indexOf(3);
+                if (i > -1) completedSteps.splice(i, 1);
+            }
+        }
+        function toggleSimulation() {
+            const btn = document.getElementById("startStopBtn");
+            const controls = document.getElementById("controls");
+            if (!started) {
+                started = true;
+                btn.textContent = "⏸️ Pause";
+                controls.innerHTML += `
+                    <br><button onclick="revealPassword()" style="margin-top: 10px; padding: 10px 20px; background: linear-gradient(to right, #ffa500, #ff8c00); color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">🪄 Reveal Password</button>
+                    <br><button onclick="stopSimulation()" style="margin-top: 10px; padding: 10px 20px; background: red; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">⛔ Stop</button>
+                `;
+                if (usingDictionary) {
+                    loadDictionaryAndStart();
+                } else {
+                    bruteForceStart();
+                }
+            } else {
+                paused = !paused;
+                btn.textContent = paused ? "▶️ Resume" : "⏸️ Pause";
+                if (!paused) {
+                    if (usingDictionary) {
+                        dictStep();
+                    } else {
+                        bruteForceStart();
+                    }
+                } else {
+                    clearTimeout(bruteTimer);
+                }
+            }
+        }
+        function stopSimulation() {
+            clearTimeout(bruteTimer);
+            selectStep(4);
+        }
+        function revealPassword() {
+            const passInput = document.getElementById("password");
+            passInput.type = "text";
+            passInput.value = correctPassword;
+            passInput.style.boxShadow = "0 0 10px orange";
+            setTimeout(() => {
+                passInput.style.boxShadow = "none";
+            }, 1000);
+        }
+        async function loadDictionaryAndStart() {
+            try {
+                const res = await fetch("https://deenbd.github.io/deengrouptests/dictionary.txt");
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const text = await res.text();
+                dictionaryList = text.split(/\r?\n/).map(p => p.trim()).filter(Boolean);
+                dictIndex = 0;
+                document.getElementById("check-counter").textContent = `চেক করা হচ্ছে... (0/${TOTAL_DICTIONARY_PASSWORDS})`;
+                document.getElementById("speed-zone").textContent = "";
+                dictStep();
+            } catch (e) {
+                console.error("Failed to load dictionary.txt:", e);
+                alert("ডিকশনারি ফাইল লোড করা সম্ভব হয়নি, ব্রুট ফোর্স অ্যাটাক শুরু হচ্ছে।");
+                usingDictionary = false;
+                document.getElementById("check-counter").textContent = "";
+                bruteForceStart();
+            }
+        }
+        function dictStep() {
+            if (paused) return;
+            if (dictIndex >= dictionaryList.length) {
+                document.getElementById("check-result").innerHTML = `<span style="color:red;">ডিকশনারিতে পাসওয়ার্ডটি পাওয়া যায়নি।</span>`;
+                usingDictionary = false;
+                bruteForceStart();
+                return;
+            }
+            document.getElementById("check-counter").textContent = `চেক করা হয়েছে: ${dictIndex + 1}/${TOTAL_DICTIONARY_PASSWORDS}`;
+            const word = dictionaryList[dictIndex];
+            document.getElementById("current-pass").textContent = `বর্তমান পাসওয়ার্ড: ${word}`;
+            document.getElementById("password").type = "text";
+            document.getElementById("password").value = word;
+            if (word === correctPassword) {
+                document.getElementById("check-result").innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Dictionary)!</span>`;
+                document.getElementById("startStopBtn").disabled = true;
+                clearTimeout(bruteTimer);
+                return;
+            } else {
+                document.getElementById("check-result").innerHTML = `<span style="color:red;">❌ ${word} ভুল</span>`;
+            }
+            dictIndex++;
+            bruteTimer = setTimeout(dictStep, 1000);
+        }
+        function bruteForceStart() {
+            if (paused) return;
+            const passInput = document.getElementById("password");
+            const display = document.getElementById("current-pass");
+            const result = document.getElementById("check-result");
+            const speedZone = document.getElementById("speed-zone");
+            const formatted = pass.toString().padStart(4, '0');
+            display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
+            passInput.type = "text";
+            passInput.value = formatted;
+            let delay = 5;
+            let zone = "Fast";
+            if (pass > 4053 && pass <= 7264) {
+                delay = 20;
+                zone = "Medium";
+            } else if (pass > 7264 && pass <= 9524) {
+                delay = 2;
+                zone = "Very Fast";
+            } else if (pass > 9524) {
+                delay = 50;
+                zone = "Slow";
+            }
+            speedZone.textContent = `Speed Zone: ${zone}`;
+            if (formatted === correctPassword) {
+                result.innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Brute Force)!</span>`;
+                document.getElementById("startStopBtn").disabled = true;
+                return;
+            } else {
+                result.innerHTML = `<span style="color:red;">❌ ${formatted} ভুল</span>`;
+            }
+            pass++;
+            bruteTimer = setTimeout(bruteForceStart, delay);
+        }
+    </script>
 </body>
 </html>
