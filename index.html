@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>4th Test: Deen Group Tests</title>
+    <title>3rd Test: Deen Group Tests</title>
     <link href="onlylogo.png" rel="icon" />
     <style>
         body {
@@ -36,7 +36,7 @@
             overflow-x: hidden;
         }
         .right-box {
-            width: 400px;
+            width: 420px;
             background-color: #ccffcc;
         }
         .left-box input {
@@ -140,15 +140,121 @@
             background: linear-gradient(to right, #ffae42, #ff7300);
             box-shadow: 0 0 10px #ffaa00;
         }
+        #sim-box{
+            background:#fff3cd;
+            padding:20px;
+            border-radius:10px;
+            text-align:center;
+        }
+        #status{font-weight:bold}
+        #current-pass{font-size:24px;margin-top:10px}
+        #check-result{font-size:20px;font-weight:600;margin-top:10px}
+        #speed-zone{margin-top:10px;font-size:16px}
+        .control-btn{margin-top:8px;padding:8px 14px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+        .btn-reveal{background:linear-gradient(to right,#ffa500,#ff8c00);color:#fff}
+        .btn-stop{background:#e74c3c;color:#fff}
+        .btn-start{background:#28a745;color:#fff}
+        .btn-toggle{background:#6c5ce7;color:#fff}
+        .small-note{font-size:13px;color:#333;margin-top:8px}
+        .phishing-block-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .phishing-block {
+            background-color: #ff6666;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: left;
+            position: relative;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+        }
+        .phishing-block:active {
+            cursor: grabbing;
+        }
+        .phishing-block:before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            background-color: #ff6666;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 75%, 50% 50%, 0 25%);
+        }
+        .phishing-block.start-block:before {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .phishing-block-input {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 4px 8px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+        #blockDropZone {
+            border: 2px dashed #999;
+            padding: 20px;
+            min-height: 200px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px; /* এই লাইনটি পরিবর্তন করা হয়েছে */
+        }
+        #phishingResult {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #d4edda;
+            color: #155724;
+            display: none;
+        }
+        .phishing-success-link {
+            word-break: break-all;
+            background-color: #cce5ff;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #b8daff;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .message-box button {
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left-box">
-            <h3>Deen Group Log-in</h3>
-            <input type="text" id="username" placeholder="Username" />
-            <input type="password" id="password" placeholder="Password" oninput="validatePassword()" />
-            <button id="loginBtn" onclick="login()" disabled>Log-in</button>
+            <h3>দ্বীন গ্রুপ লগ-ইন</h3>
+            <input type="text" id="username" placeholder="ইউজারনেম" oninput="validatePassword()" />
+            <input type="password" id="password" placeholder="পাসওয়ার্ড" oninput="validatePassword()" />
+            <button id="loginBtn" onclick="login()" disabled>লগ-ইন</button>
+            <div class="small-note">(সঠিক পাসওয়ার্ড হলে Login সক্রিয় হবে)</div>
         </div>
         <div class="right-box">
             <h2 id="ruleHeading">Steps</h2>
@@ -161,306 +267,556 @@
             <div id="backContainer"></div>
         </div>
     </div>
-    <script>
-        let completedSteps = [];
-        let allowedStep3Access = false;
-        let rule3Method = "";
-        let allowedStep4Access = false;
-        let pass = 0;
-        let paused = false;
-        let bruteTimer = null;
-        let started = false;
-        let dictionaryList = [];
-        let dictIndex = 0;
-        let usingDictionary = false;
-        const correctPassword = "9624";
-        const TOTAL_DICTIONARY_PASSWORDS = 10000;
+    <div id="messageBox" class="message-box">
+        <p id="messageText"></p>
+        <button onclick="hideMessage()">ওকে</button>
+    </div>
 
-        function validatePassword() {
-            const password = document.getElementById("password").value;
-            const loginBtn = document.getElementById("loginBtn");
-            loginBtn.disabled = password !== correctPassword;
-        }
-        function login() {
-            window.location.href = "https://example.com";
-        }
-        function selectStep(ruleNumber) {
-            if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
-                alert(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
-                return;
+    <script>
+        // কোডটি উইন্ডো লোড হওয়ার পর কাজ করবে, যাতে সব HTML উপাদান ঠিকমতো পাওয়া যায়।
+        window.onload = function() {
+            // CONFIG / STATE
+            const correctPassword = "9624";
+            const DICT_URL = "https://deenbd.github.io/deengrouptests/dictionary.txt";
+            const TOTAL_DICTIONARY_PASSWORDS = 10000;
+            const FAKE_SITE_URL = "https://deenbd.github.io/deengrouptests/login.html";
+            
+            let completedSteps = [];
+            let allowedStep3Access = false;
+            let rule3Method = "";
+            let allowedStep4Access = false;
+            let pass = 0;
+            let paused = false;
+            let bruteTimer = null;
+            let started = false;
+            let dictionaryList = [];
+            let dictIndex = 0;
+            let usingDictionary = false;
+            let dictSlowMode = false;
+            
+            const BASE_DELAYS = {
+                Fast: 5, // for 0000-4053
+                Medium: 20, // for 4054-7264
+                VeryFast: 2, // for 7265-9524
+                Slow: 50 // for 9525-9624
+            };
+            
+            let stepHistory = [];
+            let droppedBlocks = [];
+
+            // কাস্টম মেসেজ বক্স তৈরি এবং এটি গ্লোবাল স্কোপে অ্যাক্সেসযোগ্য করা হয়েছে।
+            window.showMessage = function(message) {
+                const messageBox = document.getElementById('messageBox');
+                const messageText = document.getElementById('messageText');
+                messageText.textContent = message;
+                messageBox.style.display = 'flex';
             }
-            if (ruleNumber === 3 && !allowedStep3Access) {
-                alert("আপনি Brute Force বা Dictionary নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
-                return;
+
+            window.hideMessage = function() {
+                const messageBox = document.getElementById('messageBox');
+                messageBox.style.display = 'none';
             }
-            if (ruleNumber === 4 && !allowedStep4Access) {
-                alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ যেতে পারবেন না!");
-                return;
+
+            function zoneDelay(baseMs) {
+                const d = Math.max(1, Math.round(baseMs / 2));
+                return d;
             }
-            const heading = document.getElementById("ruleHeading");
-            const buttons = document.getElementById("buttonsContainer");
-            const back = document.getElementById("backContainer");
-            heading.textContent = `Step ${ruleNumber}`;
-            buttons.style.display = "none";
-            back.style.display = "block";
-            let content = "";
-            if (ruleNumber === 1) {
-                content = `
-                    <div class="rule-content">
-                        <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
-                        <ul>
-                            <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
-                            <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
-                            <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
-                            <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
-                            <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
-                            <li>৬ষ্ঠ তথ্য: পাসওয়ার্ড পেয়ে গেলে শেষ অঙ্কটি ডিলেট করে আবার লিখতে হবে।।</li>
-                        </ul>
-                    </div>
-                `;
-            } else if (ruleNumber === 2) {
-                content = `
-                    <div class="rule-content">
-                        <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
-                        <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
-                        <ul>
-                            <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
-                            <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
-                            <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
-                            <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
-                            <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
-                            <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
-                            <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
-                        </ul>
-                        <div class="rule-2-buttons-wrapper">
-                            <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
-                            <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
-                            <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
-                            <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
-                            <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
-                            <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
-                            <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
-                        </div>
-                    </div>
-                `;
-            } else if (ruleNumber === 3) {
-                if (rule3Method === "Brute Force") {
-                    content = `
-                        <div class="attack-section" id="brute-force">
-                            <h3>🧠 Brute Force Attack (ব্রুট ফোর্স আক্রমণ)</h3>
-                            <p><strong>🔐 সংজ্ঞা:</strong> Brute Force Attack হলো এমন একটি পদ্ধতি যেখানে একটি প্রোগ্রাম বা স্ক্রিপ্ট সম্ভাব্য সব পাসওয়ার্ড কম্বিনেশন একে একে চেষ্টা করে সঠিক পাসওয়ার্ড খুঁজে বের করে।</p>
-                            <p><strong>🧮 কিভাবে কাজ করে:</strong> ধরুন, আপনি জানেন ইউজারের পাসওয়ার্ড ৪ ডিজিট সংখ্যা। তখন আপনি 0000 থেকে শুরু করে 9999 পর্যন্ত প্রতিটি সংখ্যা চেষ্টা করবেন। কম্পিউটার বা স্ক্রিপ্ট এটি স্বয়ংক্রিয়ভাবে করে ফেলবে।</p>
-                            <p><strong>📦 উদাহরণ:</strong> 0000, 0001, 0002, ..., 1234, ..., 9999</p>
-                            <p><strong>📉 দুর্বলতা:</strong></p>
-                            <ul>
-                                <li>সময় বেশি লাগে, বিশেষ করে পাসওয়ার্ড বড় হলে।</li>
-                                <li>তবে সফল হলে নিশ্চিত ফল দেয়।</li>
-                            </ul>
-                        </div>
-                    `;
-                } else if (rule3Method === "Dictionary") {
-                    content = `
-                        <div class="attack-section" id="dictionary-attack">
-                            <h3>📖 Dictionary Attack (ডিকশনারি আক্রমণ)</h3>
-                            <p><strong>🔐 সংজ্ঞা:</strong> Dictionary Attack এমন একটি পদ্ধতি যেখানে হ্যাকাররা একটি প্রি-মেড ডিকশনারি বা তালিকা ব্যবহার করে — যেখানে অনেকগুলো সাধারণ ও জনপ্রিয় পাসওয়ার্ড থাকে।</p>
-                            <p><strong>🧠 কিভাবে কাজ করে:</strong> অনেক মানুষ খুব সাধারণ পাসওয়ার্ড ব্যবহার করে, যেমন: 123456, password, admin, qwerty। এইসব পাসওয়ার্ড আগে থেকে রাখা থাকে একটি .txt ফাইলে বা স্ক্রিপ্টে। এরপর সেই তালিকা থেকে একে একে প্রতিটি পাসওয়ার্ড দিয়ে চেষ্টা করা হয়।</p>
-                            <p><strong>📦 উদাহরণ:</strong> password, 123456, letmein, admin, welcome123, qwerty, pass123</p>
-                            <p><strong>⚠️ দুর্বলতা:</strong></p>
-                            <ul>
-                                <li>যদি ইউজার শক্তিশালী ও অপ্রচলিত পাসওয়ার্ড ব্যবহার করে, তাহলে এই পদ্ধতি ব্যর্থ হয়।</li>
-                                <li>তবে সহজ পাসওয়ার্ডের জন্য খুবই কার্যকর।</li>
-                            </ul>
-                        </div>
-                    `;
+
+            function getZoneForNumber(n) {
+                if (n <= 4053) return { zone: "Fast", delay: zoneDelay(BASE_DELAYS.Fast) };
+                if (n <= 7264) return { zone: "Medium", delay: zoneDelay(BASE_DELAYS.Medium) };
+                if (n <= 9524) return { zone: "Very Fast", delay: zoneDelay(BASE_DELAYS.VeryFast) };
+                return { zone: "Slow", delay: zoneDelay(BASE_DELAYS.Slow) };
+            }
+
+            function validatePassword() {
+                const password = document.getElementById("password").value;
+                const username = document.getElementById("username").value;
+                const loginBtn = document.getElementById("loginBtn");
+                loginBtn.disabled = password !== correctPassword || username.trim() === "";
+            }
+
+            function login() {
+                showMessage("🎉 লগ-ইন সফল (সিমুলেশন)!");
+            }
+
+            // স্টেপ পরিবর্তন করার ফাংশন
+            window.selectStep = function(ruleNumber) {
+                if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
+                    showMessage(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
+                    return;
                 }
-                content += `
-                    <div style="text-align:center;">
-                        <button class="orange-button" onclick="goToStep4()">🚀 Start Attack!</button>
-                    </div>
-                `;
-            } else if (ruleNumber === 4) {
-                pass = 0;
-                dictIndex = 0;
-                paused = false;
-                started = false;
-                usingDictionary = (rule3Method === "Dictionary");
-                content = `
-                    <div class="rule-content">
-                        <div id="sim-box" style="background:#fff3cd;padding:20px;border-radius:10px;text-align:center;">
-                            <div id="status">চেকিং হচ্ছে...</div>
-                            <div id="check-counter" style="margin-top:10px; font-size:16px; font-weight: bold;"></div>
-                            <div id="current-pass" style="font-size:24px;margin-top:10px;">বর্তমান পাসওয়ার্ড: ----</div>
-                            <div id="check-result" style="font-size:20px;font-weight:bold;margin-top:10px;"></div>
-                            <div id="speed-zone" style="margin-top:10px; font-size:16px;"></div>
-                            <div id="controls" style="margin-top:20px;">
-                                <button id="startStopBtn" onclick="toggleSimulation()" style="padding: 10px 20px; background: #28a745; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">▶️ Start</button>
+                if (ruleNumber === 3 && !allowedStep3Access) {
+                    showMessage("আপনি Brute Force বা Dictionary বা Phishing নির্বাচন না করলে এই রুলে ঢুকতে পারবেন না!");
+                    return;
+                }
+                if (ruleNumber === 4 && !allowedStep4Access) {
+                    showMessage("⚠️ আপনি 'Start Attack!' বা 'Create Phishing Page' না চাপলে Step 4 এ যেতে পারবেন না!");
+                    return;
+                }
+                if (stepHistory.length === 0 || stepHistory[stepHistory.length - 1] !== ruleNumber) {
+                    stepHistory.push(ruleNumber);
+                }
+                const heading = document.getElementById("ruleHeading");
+                const buttons = document.getElementById("buttonsContainer");
+                const back = document.getElementById("backContainer");
+                heading.textContent = `Step ${ruleNumber}`;
+                buttons.style.display = "none";
+                back.style.display = "block";
+                let content = "";
+                if (ruleNumber === 1) {
+                    content = `
+                        <div class="rule-content">
+                            <p>আপনাকে এই রুলে কিছু তথ্য জানানো হবে। তথ্যগুলি আপনাকে পাসওয়ার্ডটি বের করতে সাহায্য করবে।</p>
+                            <ul>
+                                <li>১ম তথ্য: পাসওয়ার্ডটি ৪ অক্ষর বা বর্ণের।</li>
+                                <li>২য় তথ্য: পাসওয়ার্ডটি পুরোটিই সংখ্যা।</li>
+                                <li>৩য় তথ্য: এটি অন্তত্য সহজ।</li>
+                                <li>৪র্থ তথ্য: রুল ২ এর অপশনগুলির মাঝে শুধুমাত্র ২টি ব্যাবহার করেই এখানে আপনি পাসওয়ার্ড বের করতে পারবেন।</li>
+                                <li>৫ম তথ্য: ইউজারনেম আপনাকে নিজে বাছতে হবে। যা দিবেন তাই হবে।</li>
+                                <li>৬ষ্ঠ তথ্য: পাসওয়ার্ড পেয়ে গেলে শেষ অঙ্কটি ডিলেট করে আবার লিখতে হবে।।</li>
+                            </ul>
+                        </div>
+                    `;
+                } else if (ruleNumber === 2) {
+                    content = `
+                        <div class="rule-content">
+                            <p>তুমি কোন পদ্ধতি ব্যাবহার করে পাসওয়ার্ডটি বের করতে চাও?</p>
+                            <p>পাসওয়ার্ড হ্যাকিং-এর বিভিন্ন পদ্ধতি:</p>
+                            <ul>
+                                <li><strong>Brute Force Attack:</strong> 0000, 0001, 0002 ... 9999</li>
+                                <li><strong>Dictionary Attack:</strong> 1234, password, qwerty, abc123</li>
+                                <li><strong>Phishing:</strong> ইউজার ভুয়া সাইটে পাসওয়ার্ড দেয়</li>
+                                <li><strong>Keylogging:</strong> কী টাইপ হচ্ছে তা রেকর্ড</li>
+                                <li><strong>Shoulder Surfing:</strong> পাশে দাঁড়িয়ে দেখা</li>
+                                <li><strong>Guessing:</strong> জন্মতারিখ, প্রিয় জিনিস</li>
+                                <li><strong>Credential Stuffing:</strong> পুরোনো সাইটের পাসওয়ার্ড ব্যবহার</li>
+                            </ul>
+                            <div class="rule-2-buttons-wrapper">
+                                <button class="rule-2-option" onclick="selectMethod('Brute Force')">Brute Force</button>
+                                <button class="rule-2-option" onclick="selectMethod('Dictionary')">Dictionary</button>
+                                <button class="rule-2-option" onclick="selectMethod('Phishing')">Phishing</button>
+                                <button class="rule-2-option" onclick="selectMethod('Keylogging')">Keylogging</button>
+                                <button class="rule-2-option" onclick="selectMethod('Shoulder Surfing')">Shoulder Surfing</button>
+                                <button class="rule-2-option" onclick="selectMethod('Guessing')">Guessing</button>
+                                <button class="rule-2-option" onclick="selectMethod('Credential Stuffing')">Credential Stuffing</button>
                             </div>
                         </div>
-                    </div>
-                `;
-            }
-            back.innerHTML = content + `
-                <div style="text-align:center;">
-                    <button onclick="goBack()">⬅️ Back</button>
-                </div>
-            `;
-            if (!completedSteps.includes(ruleNumber)) {
-                completedSteps.push(ruleNumber);
-            }
-        }
-        function selectMethod(method) {
-            if (method === 'Brute Force' || method === 'Dictionary') {
-                alert(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
-                if (!completedSteps.includes(2)) completedSteps.push(2);
-                allowedStep3Access = true;
-                rule3Method = method;
-                allowedStep4Access = false;
-                setTimeout(() => selectStep(3), 300);
-            } else {
-                alert("দুঃখিত, এই পদ্ধতি দ্বারা এখানে তুমি পাসওয়ার্ডটি বের করতে পারবে না!");
-                allowedStep3Access = false;
-                rule3Method = "";
-                setTimeout(() => selectStep(2), 300);
-            }
-        }
-        function goToStep4() {
-            allowedStep4Access = true;
-            selectStep(4);
-        }
-        function goBack() {
-            const heading = document.getElementById("ruleHeading").textContent;
-            if (heading === "Step 4" && !allowedStep4Access) {
-                alert("⚠️ আপনি 'Start Attack!' না চাপলে Step 4 এ ফিরে যেতে পারবেন না!");
-                return;
-            }
-            document.getElementById("ruleHeading").textContent = "Steps";
-            document.getElementById("buttonsContainer").style.display = "flex";
-            document.getElementById("backContainer").style.display = "none";
-            document.getElementById("backContainer").innerHTML = ``;
-            if (!completedSteps.includes(3) || !allowedStep3Access) {
-                const i = completedSteps.indexOf(3);
-                if (i > -1) completedSteps.splice(i, 1);
-            }
-        }
-        function toggleSimulation() {
-            const btn = document.getElementById("startStopBtn");
-            const controls = document.getElementById("controls");
-            if (!started) {
-                started = true;
-                btn.textContent = "⏸️ Pause";
-                controls.innerHTML += `
-                    <br><button onclick="revealPassword()" style="margin-top: 10px; padding: 10px 20px; background: linear-gradient(to right, #ffa500, #ff8c00); color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">🪄 Reveal Password</button>
-                    <br><button onclick="stopSimulation()" style="margin-top: 10px; padding: 10px 20px; background: red; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">⛔ Stop</button>
-                `;
-                if (usingDictionary) {
-                    loadDictionaryAndStart();
-                } else {
-                    bruteForceStart();
-                }
-            } else {
-                paused = !paused;
-                btn.textContent = paused ? "▶️ Resume" : "⏸️ Pause";
-                if (!paused) {
-                    if (usingDictionary) {
-                        dictStep();
+                    `;
+                } else if (ruleNumber === 3) {
+                    if (rule3Method === "Brute Force") {
+                        content = `
+                            <div class="attack-section" id="brute-force">
+                                <h3>🧠 Brute Force Attack (ব্রুট ফোর্স আক্রমণ)</h3>
+                                <p><strong>🔐 সংজ্ঞা:</strong> Brute Force Attack হলো এমন একটি পদ্ধতি যেখানে একটি প্রোগ্রাম বা স্ক্রিপ্ট সম্ভাব্য সব পাসওয়ার্ড কম্বিনেশন একে একে চেষ্টা করে সঠিক পাসওয়ার্ড খুঁজে বের করে।</p>
+                                <p><strong>🧮 কিভাবে কাজ করে:</strong> ধরুন, আপনি জানেন ইউজারের পাসওয়ার্ড ৪ ডিজিট সংখ্যা। তখন আপনি 0000 থেকে শুরু করে 9999 পর্যন্ত প্রতিটি সংখ্যা চেষ্টা করবেন। কম্পিউটার বা স্ক্রিপ্ট এটি স্বয়ংক্রিয়ভাবে করে ফেলবে।</p>
+                                <p><strong>📦 উদাহরণ:</strong> 0000, 0001, 0002, ..., 1234, ..., 9999</p>
+                                <p><strong>📉 দুর্বলতা:</strong></p>
+                                <ul>
+                                    <li>সময় বেশি লাগে, বিশেষ করে পাসওয়ার্ড বড় হলে।</li>
+                                    <li>তবে সফল হলে নিশ্চিত ফল দেয়।</li>
+                                </ul>
+                            </div>
+                        `;
+                    } else if (rule3Method === "Dictionary") {
+                        content = `
+                            <div class="attack-section" id="dictionary-attack">
+                                <h3>📖 Dictionary Attack (ডিকশনারি আক্রমণ)</h3>
+                                <p><strong>🔐 সংজ্ঞা:</strong> Dictionary Attack এমন একটি পদ্ধতি যেখানে হ্যাকাররা একটি প্রি-মেড ডিকশনারি বা তালিকা ব্যবহার করে — যেখানে অনেকগুলো সাধারণ ও জনপ্রিয় পাসওয়ার্ড থাকে।</p>
+                                <p><strong>🧠 কিভাবে কাজ করে:</strong> অনেক মানুষ খুব সাধারণ পাসওয়ার্ড ব্যবহার করে, যেমন: 123456, password, admin, qwerty। এইসব পাসওয়ার্ড আগে থেকে রাখা থাকে একটি .txt ফাইলে বা স্ক্রিপ্টে। এরপর সেই তালিকা থেকে একে একে প্রতিটি পাসওয়ার্ড দিয়ে চেষ্টা করা হয়।</p>
+                                <p><strong>📦 উদাহরণ:</strong> password, 123456, letmein, admin, welcome123, qwerty, pass123</p>
+                                <p><strong>⚠️ দুর্বলতা:</strong></p>
+                                <ul>
+                                    <li>যদি ইউজার শক্তিশালী ও অপ্রচলিত পাসওয়ার্ড ব্যবহার করে, তাহলে এই পদ্ধতি ব্যর্থ হয়।</li>
+                                    <li>তবে সহজ পাসওয়ার্ডের জন্য খুবই কার্যকর।</li>
+                                </ul>
+                            </div>
+                        `;
+                    } else if (rule3Method === "Phishing") {
+                        content = `
+                            <div class="attack-section" id="phishing-attack">
+                                <h3>🎣 Phishing (ফিশিং)</h3>
+                                <p><strong>🔐 সংজ্ঞা:</strong> ফিশিং এমন একটি কৌশল যেখানে হ্যাকাররা একজন ব্যবহারকারীর থেকে সংবেদনশীল তথ্য (যেমন: ইউজারনেম, পাসওয়ার্ড) চুরি করে, তাদেরকে একটি ছদ্মবেশী ওয়েবসাইটে আকর্ষণ করে।</p>
+                                <p><strong>🛠️ কিভাবে কাজ করে:</strong> হ্যাকাররা আসল ওয়েবসাইটের একটি নকল সংস্করণ তৈরি করে এবং সেটি ব্যবহারকারীকে পাঠায়। ব্যবহারকারী নকল সাইটটি চিনতে না পেরে সেখানে তাদের তথ্য ইনপুট করে, যা সরাসরি হ্যাকারের কাছে চলে যায়।</p>
+                                <p><strong>🧱 ওয়েব পেজ তৈরি:</strong></p>
+                                <p>দ্বীন গ্রুপের লগ-ইন ফর্মের একটি নকল ওয়েবসাইট তৈরি করতে নিচের ব্লকগুলো সাজান:</p>
+                                <div style="display: flex; gap: 20px;">
+                                    <div id="phishing-blocks" class="phishing-block-container" ondragover="event.preventDefault();">
+                                        <div class="phishing-block start-block" draggable="true" data-block-id="1">
+                                            <div style="flex-grow: 1;">when Page open</div>
+                                        </div>
+                                        <div class="phishing-block" draggable="true" data-block-id="2">
+                                            <div style="flex-grow: 1;">ফর্মের নাম:</div>
+                                            <input type="text" class="phishing-block-input" value="Deen Group Log-in" />
+                                        </div>
+                                        <div class="phishing-block" draggable="true" data-block-id="3">
+                                            <div style="flex-grow: 1;">ইউজারনেম লেখার স্থান</div>
+                                        </div>
+                                        <div class="phishing-block" draggable="true" data-block-id="4">
+                                            <div style="flex-grow: 1;">পাসওয়ার্ড লেখার স্থান</div>
+                                        </div>
+                                        <div class="phishing-block" draggable="true" data-block-id="5">
+                                            <div style="flex-grow: 1;">লগ-ইন বাটন। বাটনে লেখা:</div>
+                                            <input type="text" class="phishing-block-input" value="Log-in" />
+                                        </div>
+                                    </div>
+                                    <div id="blockDropZone" ondragover="event.preventDefault();" ondrop="handleDrop(event)">
+                                        <p>এখানে ব্লকগুলি ড্র্যাগ ও ড্রপ করুন।</p>
+                                    </div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <button class="orange-button" onclick="createPhishingPage()">🔗 Create Phishing Page</button>
+                                </div>
+                                <div id="phishingResult"></div>
+                            </div>
+                        `;
+                    }
+                    content += `
+                        <div style="text-align:center;">
+                            <button class="orange-button" onclick="goToStep4()">🚀 Start Attack!</button>
+                        </div>
+                    `;
+                } else if (ruleNumber === 4) {
+                    if (rule3Method === "Phishing") {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const capturedUser = urlParams.get('username');
+                        const capturedPass = urlParams.get('password');
+                        content = `
+                            <div class="rule-content">
+                                <h3>🕵️‍♂️ Phishing Capture Center</h3>
+                                <p>নকল ওয়েবসাইট থেকে ইউজারনেম এবং পাসওয়ার্ড এখানে আসবে।</p>
+                                <div id="capture-data" style="background: #f0f8ff; padding: 20px; border-radius: 8px; border: 1px solid #b8daff;">
+                                    ${capturedUser && capturedPass ? `
+                                        <p style="color: green; font-weight: bold;">✅ তথ্য সফলভাবে ক্যাপচার করা হয়েছে!</p>
+                                        <p><strong>ইউজারনেম:</strong> ${capturedUser}</p>
+                                        <p><strong>পাসওয়ার্ড:</strong> ${capturedPass}</p>
+                                    ` : `
+                                        <p>Waiting for user login...</p>
+                                    `}
+                                </div>
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <p>আপনার নকল ওয়েবসাইটের লিংক:</p>
+                                    <a href="${FAKE_SITE_URL}" target="_blank" style="word-break: break-all; color: #0056b3;">${FAKE_SITE_URL}</a>
+                                </div>
+                            </div>
+                        `;
                     } else {
+                        pass = 0;
+                        dictIndex = 0;
+                        paused = false;
+                        started = false;
+                        usingDictionary = (rule3Method === "Dictionary");
+
+                        content = `
+                            <div class="rule-content">
+                                <div id="sim-box">
+                                    <div id="status">চেকিং হচ্ছে...</div>
+                                    <div id="check-counter" style="margin-top:10px;font-size:14px;color:#333;"></div>
+                                    <div id="current-pass">বর্তমান পাসওয়ার্ড: ----</div>
+                                    <div id="check-result"></div>
+                                    <div id="speed-zone"></div>
+
+                                    <div id="controls" style="margin-top:14px;">
+                                        <button id="startStopBtn" class="control-btn btn-start" onclick="toggleSimulation()">▶️ Start</button>
+                                        ${usingDictionary ? `<button id="dictSlowToggle" class="control-btn btn-toggle" onclick="toggleDictSlowMode()" style="margin-left:10px;">Slow Mode: OFF</button>` : ''}
+                                    </div>
+                                    <div style="margin-top:10px;">
+                                        <button class="control-btn btn-reveal" onclick="revealPassword()">🪄 Reveal Password</button>
+                                        <button class="control-btn btn-stop" onclick="stopSimulation()" style="margin-left:10px;">⛔ Stop</button>
+                                    </div>
+                                    <div style="margin-top:8px;font-size:13px;color:#222">Note: Slow Mode sets dictionary to 1s interval. Otherwise dictionary follows speed zones like brute force.</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                back.innerHTML = content + `<div style="text-align:center;margin-top:12px;"><button onclick="goBack()">⬅️ Back</button></div>`;
+                if (!completedSteps.includes(ruleNumber)) {
+                    completedSteps.push(ruleNumber);
+                }
+                if (ruleNumber === 3 && rule3Method === "Phishing") {
+                    setupDragAndDrop();
+                }
+            }
+            
+            // বিভিন্ন ফাংশনগুলিকে গ্লোবাল স্কোপে আনা হয়েছে।
+            window.selectMethod = function(method) {
+                showMessage(`আপনি ${method} পদ্ধতি নির্বাচন করেছেন।`);
+                if (method === 'Brute Force' || method === 'Dictionary' || method === 'Phishing') {
+                    if (!completedSteps.includes(2)) completedSteps.push(2);
+                    allowedStep3Access = true;
+                    rule3Method = method;
+                    allowedStep4Access = false;
+                    setTimeout(() => selectStep(3), 300);
+                } else {
+                    allowedStep3Access = false;
+                    rule3Method = "";
+                    setTimeout(() => selectStep(2), 300);
+                }
+            }
+
+            window.goToStep4 = function() {
+                allowedStep4Access = true;
+                selectStep(4);
+            }
+
+            window.goBack = function() {
+                if (stepHistory.length > 1) {
+                    stepHistory.pop();
+                    const prevStep = stepHistory[stepHistory.length - 1];
+                    selectStep(prevStep);
+                } else {
+                    stepHistory = [];
+                    document.getElementById("ruleHeading").textContent = "Steps";
+                    document.getElementById("buttonsContainer").style.display = "flex";
+                    document.getElementById("backContainer").style.display = "none";
+                    document.getElementById("backContainer").innerHTML = "";
+                }
+            }
+
+            window.toggleSimulation = function() {
+                const btn = document.getElementById("startStopBtn");
+                if (!started) {
+                    started = true;
+                    paused = false;
+                    btn.textContent = "⏸️ Pause";
+                    if (usingDictionary) {
+                        loadDictionaryAndStart();
+                    } else {
+                        pass = 0;
                         bruteForceStart();
                     }
                 } else {
-                    clearTimeout(bruteTimer);
+                    paused = !paused;
+                    btn.textContent = paused ? "▶️ Resume" : "⏸️ Pause";
+                    if (!paused) {
+                        if (usingDictionary) {
+                            dictStep();
+                        } else {
+                            bruteForceStart();
+                        }
+                    } else {
+                        clearTimeout(bruteTimer);
+                    }
                 }
             }
-        }
-        function stopSimulation() {
-            clearTimeout(bruteTimer);
-            selectStep(4);
-        }
-        function revealPassword() {
-            const passInput = document.getElementById("password");
-            passInput.type = "text";
-            passInput.value = correctPassword;
-            passInput.style.boxShadow = "0 0 10px orange";
-            setTimeout(() => {
-                passInput.style.boxShadow = "none";
-            }, 1000);
-        }
-        async function loadDictionaryAndStart() {
-            try {
-                const res = await fetch("https://deenbd.github.io/deengrouptests/dictionary.txt");
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                const text = await res.text();
-                dictionaryList = text.split(/\r?\n/).map(p => p.trim()).filter(Boolean);
-                dictIndex = 0;
-                document.getElementById("check-counter").textContent = `চেক করা হচ্ছে... (0/${TOTAL_DICTIONARY_PASSWORDS})`;
-                document.getElementById("speed-zone").textContent = "";
-                dictStep();
-            } catch (e) {
-                console.error("Failed to load dictionary.txt:", e);
-                alert("ডিকশনারি ফাইল লোড করা সম্ভব হয়নি, ব্রুট ফোর্স অ্যাটাক শুরু হচ্ছে।");
-                usingDictionary = false;
-                document.getElementById("check-counter").textContent = "";
-                bruteForceStart();
-            }
-        }
-        function dictStep() {
-            if (paused) return;
-            if (dictIndex >= dictionaryList.length) {
-                document.getElementById("check-result").innerHTML = `<span style="color:red;">ডিকশনারিতে পাসওয়ার্ডটি পাওয়া যায়নি।</span>`;
-                usingDictionary = false;
-                bruteForceStart();
-                return;
-            }
-            document.getElementById("check-counter").textContent = `চেক করা হয়েছে: ${dictIndex + 1}/${TOTAL_DICTIONARY_PASSWORDS}`;
-            const word = dictionaryList[dictIndex];
-            document.getElementById("current-pass").textContent = `বর্তমান পাসওয়ার্ড: ${word}`;
-            document.getElementById("password").type = "text";
-            document.getElementById("password").value = word;
-            if (word === correctPassword) {
-                document.getElementById("check-result").innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Dictionary)!</span>`;
-                document.getElementById("startStopBtn").disabled = true;
+
+            window.stopSimulation = function() {
                 clearTimeout(bruteTimer);
-                return;
-            } else {
-                document.getElementById("check-result").innerHTML = `<span style="color:red;">❌ ${word} ভুল</span>`;
+                started = false;
+                paused = false;
+                usingDictionary = (rule3Method === "Dictionary");
+                selectStep(4);
             }
-            dictIndex++;
-            bruteTimer = setTimeout(dictStep, 1000);
-        }
-        function bruteForceStart() {
-            if (paused) return;
-            const passInput = document.getElementById("password");
-            const display = document.getElementById("current-pass");
-            const result = document.getElementById("check-result");
-            const speedZone = document.getElementById("speed-zone");
-            const formatted = pass.toString().padStart(4, '0');
-            display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
-            passInput.type = "text";
-            passInput.value = formatted;
-            let delay = 5;
-            let zone = "Fast";
-            if (pass > 4053 && pass <= 7264) {
-                delay = 20;
-                zone = "Medium";
-            } else if (pass > 7264 && pass <= 9524) {
-                delay = 2;
-                zone = "Very Fast";
-            } else if (pass > 9524) {
-                delay = 50;
-                zone = "Slow";
+
+            window.revealPassword = function() {
+                const passInput = document.getElementById("password");
+                const usernameInput = document.getElementById("username");
+                usernameInput.focus();
+                passInput.type = "text";
+                passInput.value = correctPassword;
+                passInput.style.boxShadow = "0 0 10px orange";
+                setTimeout(() => {
+                    passInput.style.boxShadow = "none";
+                }, 1000);
             }
-            speedZone.textContent = `Speed Zone: ${zone}`;
-            if (formatted === correctPassword) {
-                result.innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Brute Force)!</span>`;
-                document.getElementById("startStopBtn").disabled = true;
-                return;
-            } else {
-                result.innerHTML = `<span style="color:red;">❌ ${formatted} ভুল</span>`;
+
+            window.toggleDictSlowMode = function() {
+                dictSlowMode = !dictSlowMode;
+                const btn = document.getElementById("dictSlowToggle");
+                btn.textContent = `Slow Mode: ${dictSlowMode ? "ON" : "OFF"}`;
             }
-            pass++;
-            bruteTimer = setTimeout(bruteForceStart, delay);
-        }
+
+            async function loadDictionaryAndStart() {
+                try {
+                    document.getElementById("check-counter").textContent = `চেক করা হচ্ছে... (0/${TOTAL_DICTIONARY_PASSWORDS})`;
+                    document.getElementById("speed-zone").textContent = "";
+                    const res = await fetch(DICT_URL);
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    const text = await res.text();
+                    dictionaryList = text.split(/\r?\n/).map(p => p.trim()).filter(Boolean);
+                    dictIndex = 0;
+                    dictStep();
+                } catch (e) {
+                    console.error("Failed to load dictionary.txt:", e);
+                    showMessage("ডিকশনারি ফাইল লোড করা সম্ভব হয়নি, ব্রুট ফোর্স অ্যাটাক শুরু হচ্ছে।");
+                    usingDictionary = false;
+                    setTimeout(() => bruteForceStart(), 600);
+                }
+            }
+
+            function dictStep() {
+                if (paused) return;
+                if (!dictionaryList || dictIndex >= dictionaryList.length) {
+                    document.getElementById("check-result").innerHTML = `<span style="color:red;">ডিকশনারিতে পাসওয়ার্ডটি পাওয়া যায়নি।</span>`;
+                    usingDictionary = false;
+                    setTimeout(() => bruteForceStart(), 600);
+                    return;
+                }
+                
+                const word = dictionaryList[dictIndex];
+                const formattedWord = word.toString().padStart(4, '0');
+                const zoneInfo = getZoneForNumber(dictIndex);
+                
+                document.getElementById("check-counter").textContent = `চেক করা হয়েছে: ${dictIndex + 1}/${TOTAL_DICTIONARY_PASSWORDS}`;
+                document.getElementById("current-pass").textContent = `বর্তমান পাসওয়ার্ড: ${formattedWord}`;
+                document.getElementById("password").type = "text";
+                document.getElementById("password").value = formattedWord;
+
+                if (word === correctPassword) {
+                    document.getElementById("check-result").innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Dictionary)!</span>`;
+                    document.getElementById("startStopBtn").disabled = true;
+                    clearTimeout(bruteTimer);
+                    return;
+                } else {
+                    document.getElementById("check-result").innerHTML = `<span style="color:red;">❌ ${formattedWord} ভুল</span>`;
+                }
+                
+                dictIndex++;
+                const delay = dictSlowMode ? 1000 : zoneInfo.delay;
+                document.getElementById("speed-zone").textContent = `Speed Zone: ${dictSlowMode ? "Slow Mode" : zoneInfo.zone}`;
+                
+                bruteTimer = setTimeout(dictStep, delay);
+            }
+
+            function bruteForceStart() {
+                if (paused) return;
+                const passInput = document.getElementById("password");
+                const display = document.getElementById("current-pass");
+                const result = document.getElementById("check-result");
+                const speedZone = document.getElementById("speed-zone");
+                
+                const formatted = pass.toString().padStart(4, '0');
+                const zoneInfo = getZoneForNumber(pass);
+                
+                display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
+                passInput.type = "text";
+                passInput.value = formatted;
+                speedZone.textContent = `Speed Zone: ${zoneInfo.zone}`;
+                
+                if (formatted === correctPassword) {
+                    result.innerHTML = `<span style="color:green;">✅ সঠিক পাসওয়ার্ড (Brute Force)!</span>`;
+                    document.getElementById("startStopBtn").disabled = true;
+                    return;
+                } else {
+                    result.innerHTML = `<span style="color:red;">❌ ${formatted} ভুল</span>`;
+                }
+                
+                pass++;
+                bruteTimer = setTimeout(bruteForceStart, zoneInfo.delay);
+            }
+            
+            // Phishing block logic
+            window.setupDragAndDrop = function() {
+                const blocks = document.querySelectorAll('#phishing-blocks .phishing-block');
+                const dropZone = document.getElementById('blockDropZone');
+
+                blocks.forEach(block => {
+                    block.addEventListener('dragstart', handleDragStart);
+                });
+                
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                
+                droppedBlocks = [];
+                renderDroppedBlocks();
+            }
+            
+            function handleDragStart(e) {
+                e.dataTransfer.setData('text/plain', e.target.dataset.blockId);
+            }
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            }
+            
+            window.handleDrop = function(e) {
+                e.preventDefault();
+                const blockId = e.dataTransfer.getData('text/plain');
+                const draggedBlock = document.querySelector(`[data-block-id='${blockId}']`);
+                
+                if (draggedBlock) {
+                    if (droppedBlocks.length === 0 && blockId !== "1") {
+                        showMessage("⚠️ প্রথম ব্লকটি হতে হবে 'when Page open'!");
+                        return;
+                    }
+                    
+                    if (droppedBlocks.includes(blockId)) {
+                        showMessage("এই ব্লকটি ইতিমধ্যে ব্যবহার করা হয়েছে!");
+                        return;
+                    }
+
+                    droppedBlocks.push(blockId);
+                    renderDroppedBlocks();
+                }
+            }
+            
+            function renderDroppedBlocks() {
+                const dropZone = document.getElementById('blockDropZone');
+                dropZone.innerHTML = '';
+                
+                if (droppedBlocks.length > 0) {
+                    droppedBlocks.forEach((id, index) => {
+                        const originalBlock = document.querySelector(`#phishing-blocks [data-block-id='${id}']`);
+                        if (originalBlock) {
+                            const newBlock = originalBlock.cloneNode(true);
+                            newBlock.draggable = false;
+                            newBlock.classList.add('in-drop-zone');
+                            
+                            dropZone.appendChild(newBlock);
+                        }
+                    });
+                } else {
+                    dropZone.innerHTML = '<p>এখানে ব্লকগুলি ড্র্যাগ ও ড্রপ করুন।</p>';
+                }
+            }
+            
+            function checkBlockOrder() {
+                const expectedOrder = ["1", "2", "3", "4", "5"];
+                if (droppedBlocks.length !== expectedOrder.length) {
+                    return false;
+                }
+                for (let i = 0; i < expectedOrder.length; i++) {
+                    if (droppedBlocks[i] !== expectedOrder[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            window.createPhishingPage = function() {
+                const resultBox = document.getElementById('phishingResult');
+                const dropZoneBlocks = document.querySelectorAll('#blockDropZone .phishing-block');
+                
+                if (checkBlockOrder()) {
+                    const formName = document.querySelector('#blockDropZone [data-block-id="2"] input').value;
+                    const buttonText = document.querySelector('#blockDropZone [data-block-id="5"] input').value;
+                    
+                    const finalLink = `**দ্বীন গ্রুপের নকল ওয়েবসাইট তৈরি হয়েছে!**<br>আপনার তৈরি করা নকল ওয়েবসাইটের লিংক: <span class="phishing-success-link">${FAKE_SITE_URL}?formName=${encodeURIComponent(formName)}&buttonText=${encodeURIComponent(buttonText)}</span><br>এই লিংকটি যাকে পাঠাবেন, সে লগ-ইন করলে তথ্যগুলো এই পৃষ্ঠায় দেখা যাবে।`;
+                    
+                    resultBox.style.display = 'block';
+                    resultBox.innerHTML = finalLink;
+
+                    allowedStep4Access = true;
+                    
+                } else {
+                    resultBox.style.display = 'block';
+                    resultBox.style.backgroundColor = '#f8d7da';
+                    resultBox.style.color = '#721c24';
+                    resultBox.innerHTML = `<p style="font-weight: bold;">⚠️ ব্লকগুলি সঠিক ক্রমে সাজানো হয়নি।</p><p>অনুগ্রহ করে টিউটোরিয়াল দেখে সঠিক ক্রম অনুসরণ করুন।</p>`;
+                    allowedStep4Access = false;
+                }
+            }
+            
+            // প্রাথমিক অবস্থা: মূল মেনু দেখাও।
+            document.getElementById("ruleHeading").textContent = "Steps";
+            document.getElementById("buttonsContainer").style.display = "flex";
+            document.getElementById("backContainer").style.display = "none";
+            document.getElementById("backContainer").innerHTML = ""; // ব্যাক কন্টেইনার খালি করা।
+        };
     </script>
 </body>
 </html>
